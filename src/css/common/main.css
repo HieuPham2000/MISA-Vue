@@ -1,0 +1,86 @@
+@import url(button.css);
+@import url(icon.css);
+@import url(input.css);
+@import url(modal.css);
+@import url(combobox.css);
+@import url(selectbox.css);
+@import url(pop-up.css);
+@import url(toast-messenger.css);
+
+body {
+  font-family: GoogleSans;
+  font-size: 13px;
+  color: #454545;
+  margin: 0 auto;
+  /* margin: 0; */
+}
+
+@font-face {
+  font-family: GoogleSans;
+  src: url(../../assets/font/GoogleSans-Regular.otf);
+}
+
+@font-face {
+  font-family: GoogleSans-Regular;
+  src: url(../../assets/font/GoogleSans-Regular.otf);
+}
+
+@font-face {
+  font-family: GoogleSans-Medium;
+  src: url(../../assets/font/GoogleSans-Medium.otf);
+}
+
+@font-face {
+  font-family: GoogleSans-Italic;
+  src: url(../../assets/font/GoogleSans-Italic.otf);
+}
+
+@font-face {
+  font-family: GoogleSans-Bold;
+  src: url(../../assets/font/GoogleSans-Bold.otf);
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.padding-right-10px {
+  padding-right: 10px;
+}
+
+.padding-left-10px {
+  padding-right: 10px;
+}
+
+.notice {
+  z-index: 99;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: -100%;
+  transform: translate(-50%, 50%);
+  width: 150px;
+  /* height: 50px; */
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #FF4747;
+  color: #ffffff;
+  text-align: center;
+}
+
+.notice::after {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid #FF4747;
+}

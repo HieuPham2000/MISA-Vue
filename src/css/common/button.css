@@ -1,0 +1,143 @@
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.m-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #019160;
+  border-radius: 4px;
+  height: 40px;
+  font-size: 13px;
+  color: #ffffff;
+  font-family: 'GoogleSans-Regular';
+  padding: 0 16px;
+}
+
+  .m-btn:hover {
+    background-color: #2FBE8E;
+  }
+
+  .m-btn-icon {
+    width: 16px;
+    height: 16px;
+    background-position: center;
+  }
+
+.m-second-button {
+  box-sizing: border-box;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  /* padding-left: 24px;
+  padding-right: 24px; */
+  background-color: #ffffff;
+  text-align: center;
+}
+  .m-second-button:hover {
+    background-color: #e9ebee;
+  }
+
+.m-btn-refresh {
+  background-image: url('../../assets/icon/refresh.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* paging */
+.m-btn-ctrl-page {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+  .m-btn-ctrl-page:hover {
+    background-color: #ffffff;
+  }
+  .m-btn-first-page {
+    background-image: url('../../assets/icon/btn-firstpage.svg');
+  }
+
+  .m-btn-prev-page {
+    background-image: url('../../assets/icon/btn-prev-page.svg');
+  }
+
+  .m-btn-last-page {
+    background-image: url('../../assets/icon/btn-lastpage.svg');
+  }
+
+  .m-btn-next-page {
+    background-image: url('../../assets/icon/btn-next-page.svg');
+  }
+
+.m-btn-num-page {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  border: 1px solid #bbbbbb;
+  background-color: #E9EBEE;
+  cursor: pointer;
+  user-select: none;
+}
+
+  .m-btn-num-page:hover {
+    border-color: #ffffff;
+    background-color: #ffffff;
+  }
+
+  .m-btn-num-page.active {
+    color: #ffffff;
+    border: none;
+    background-color: #019160;
+  }
+
+.m-btn-default {
+  box-sizing: border-box;
+  /* display: inline-block; */
+  justify-content: center;
+  padding: auto 24px;
+  height: 40px;
+  border-radius: 4px;
+  min-width: 100px;
+
+  
+  font-size: 13px;
+  
+  font-family: 'GoogleSans-Regular';
+}
+
+.m-btn-cancel {
+  background-color: #e9ebee;
+}
+
+  .m-btn-cancel:hover {
+    background-color: #dadce0;
+  }
+
+.m-btn-do {
+  background-color: #019160;
+  color: #ffffff;
+}
+
+  .m-btn-do:hover {
+    background-color: #2FBE8E;
+  }
+
+.m-btn-danger {
+  background-color: #f65454;
+  color: #ffffff;
+}
+  .m-btn-danger:hover {
+    opacity: 0.8;
+  }
