@@ -42,31 +42,7 @@
     <!-- end toolbar -->
 
     <!-- grid - table list -->
-    <div class="grid grid-content">
-      <table id="tablelist-employee" cellspacing="0">
-        <thead>
-          <tr>
-            <th style="width: 40px;"></th>
-            <th style="width: 50px;">#</th>
-            <th fieldname="EmployeeCode" style="width: 150px;">Mã nhân viên</th>
-            <th fieldname="FullName" style="width: 200px;">Họ và tên</th>
-            <th fieldname="GenderName" style="width: 150px;">Giới tính</th>
-            <th fieldname="DateOfBirth" style="width: 150px; text-align: center;" formattype="dd/mm/yyyy">Ngày sinh
-            </th>
-            <th fieldname="Address" style="width: 200px;">Địa chỉ</th>
-            <th fieldname="PhoneNumber" style="width: 100px;">Điện thoại</th>
-            <th fieldname="Email" style="width: 250px;">Email</th>
-            <th fieldname="PositionName" style="width: 150px;">Chức vụ</th>
-            <th fieldname="DepartmentName" style="width: 150px;">Phòng ban</th>
-            <th fieldname="Salary" style="width: 150px; text-align: right; padding-right: 10px;" formattype="salary">
-              Mức lương cơ bản</th>
-            <th fieldname="WorkStatus" style="width: 200px;" formattype="work-status">Tình trạng công việc</th>
-          </tr>
-        </thead>
-
-        <tbody></tbody>
-      </table>
-    </div>
+    <TheGrid :tableData="tableData" :tableColumns="tableColumns" />
     <!-- end table list -->
 
     <!-- pagination -->
@@ -112,7 +88,23 @@
 </style>
 
 <script>
+import TheGrid from './TheGrid.vue';
+import axios from 'axios';
 export default {
+  components: { TheGrid },
   name: "ThePage",
+  props: {
+    tableDataApi: String,
+    tableColumns: Array
+  },
+  data() {
+    return{
+      tableData: []
+    }
+  },
+  created() {
+    // Gọi api thực hiện lấy dữ liệu
+    axios.get(this.tableDataApi).then(res => {this.tableData  = res.data});
+  }
 };
 </script>

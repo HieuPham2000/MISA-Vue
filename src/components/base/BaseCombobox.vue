@@ -20,6 +20,6 @@
 
 <script>
 export default {
-  name: "BasePopUp",
+  name: "BaseCombobox",
 };
 </script>

@@ -46,7 +46,7 @@ export class EmployeePage extends BasePage {
 
   constructor() {
     super();
-    this.loadData();
+    // this.loadData();
     this.initEvents();
     this.filter();
   }
