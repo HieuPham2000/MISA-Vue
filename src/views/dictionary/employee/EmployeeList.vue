@@ -35,6 +35,7 @@ import EmployeeDetail from "./EmployeeDetail.vue";
 import axios from 'axios';
 import { ToastMessage } from '../../../script/base/main';
 export default {
+  name: "EmployeeList",
   components: {
     TheHeader,
     TheMenu,
@@ -47,23 +48,24 @@ export default {
       let me = this;
       this.employeeId = id;
 
+      // if(this.employeeId) {
+      //   this.getData();
+      // } else {
+      //   this.getNewEmployeeCode();
+      // }
+      // setTimeout(() => {
+      //    me.showModal = true;
+      // }, 200);
+
+      var promise;
       if(this.employeeId) {
-        this.getData();
+        promise = this.getData();
       } else {
-        this.getNewEmployeeCode();
+        promise = this.getNewEmployeeCode();
       }
-      setTimeout(() => {
-         me.showModal = true;
-      }, 200);
-     
-      
-      // new Promise(function() {
-      //   if(me.employeeId) {
-      //     me.getData();
-      //   } else {
-      //     me.getNewEmployeeCode();
-      //   }
-      // }).resolve( () => {me.showModal = true});
+
+      promise.then(() => {me.showModal = true;});
+            
     },
     toggleMenu() {
       this.collapseMenu = !this.collapseMenu;
@@ -76,18 +78,20 @@ export default {
       ToastMessage.add("success", "Dữ liệu được cập nhật thành công!");
     },
     getData: function () {
-      axios
+      var promise = axios
         .get(`${this.tableDataApi}/${this.employeeId}`)
         .then((res) => {
           this.employee = res.data;
         });
+      return promise;
     },
     getNewEmployeeCode: function () {
-      axios
+      var promise = axios
         .get(`${this.tableDataApi}/NewEmployeeCode`)
         .then((res) => {
           this.employee = {EmployeeCode: res.data};
         });
+      return promise;
     },
   },
   created() {

@@ -143,13 +143,16 @@ export default {
   methods: {
     deleteEntities: function() {
       let me = this;
-      this.selectedRows.forEach((id) => {
-        axios.delete(`${this.deleteApi}/${id}`).then(res => console.log(res));
-      })
-      setTimeout(function() {
+      Promise.all(this.selectedRows.map((id) => {
+        return axios.delete(`${this.deleteApi}/${id}`).then(res => console.log(res));
+      })).then(() => {
         me.$emit("reloadTableData");
         me.selectedRows = [];
-      }, 1000);
+      });
+      // setTimeout(function() {
+      //   me.$emit("reloadTableData");
+      //   me.selectedRows = [];
+      // }, 1000);
       
     },
     clickRow: function(id) {
