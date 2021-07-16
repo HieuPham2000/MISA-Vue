@@ -43,6 +43,7 @@
 <style scoped>
 @import "../../css/layout/page.css";
 @import "../../css/layout/grid.css";
+@import "../../css/page/employee.css";
 </style>
 
 <script>
@@ -55,11 +56,7 @@ export default {
     tableColumns: Array,
     selectedRows: Array
   },
-  // data() {
-  //   return {
-  //     selectedRows: []
-  //   }
-  // },
+
   filters: {
     formatData: function (value, filterType) {
       switch (filterType) {

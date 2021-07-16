@@ -23,6 +23,8 @@
   cursor: pointer;
   padding-left: 16px;
   
+  text-decoration: none;
+  color: #454545;
   overflow: hidden;
 }
 
