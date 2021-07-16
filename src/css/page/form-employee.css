@@ -173,6 +173,6 @@
 
   .money-input-container input{
     text-align: right;
-    padding-right: 62px;
+    padding-right: 62px !important;
   }
 
