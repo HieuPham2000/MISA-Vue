@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-container" v-if="isShow">
+  <div class="modal-container" v-show="isShow">
     <!-- form modal -->
     <div class="form-modal">
       <form id="form-employee" method="POST" action="#" autocomplete="off">
@@ -64,6 +64,7 @@
                     type="date"
                     fieldName="dateOfBirth"
                     :value="employee.DateOfBirth | formatData('date')"
+                  
                     class="text-align-center"
                   />
                 </div>
@@ -368,9 +369,9 @@ export default {
         email: null, // string
         address: null, // string
         identityNumber: null, // string
-        identityDate: "2021-07-08T09:54:44.286Z", // string (date -> json)
+        identityDate: null, // string (date -> json)
         identityPlace: null,
-        joinDate: "2021-07-08T09:54:44.286Z", // string (date -> json)
+        joinDate: null, // string (date -> json)
         martialStatus: 0, // number
         educationalBackground: 0, // number
         qualificationId: null, // string
@@ -387,13 +388,25 @@ export default {
       },
     };
   },
-  // watch: {
-  //   isShow: function () {
-  //     if (this.isShow && this.employeeId) {
-  //       this.getData();
-  //     }
-  //   },
-  // },
+  computed: {
+    dateOfBirthFormatted: {
+      get: function() {
+        return CommonFunction.formatDateYYYYMMDD(this.employee.DateOfBirth);
+      },
+      set: function(newValue) {
+        this.employee.DateOfBirth = newValue;
+      }
+      
+    }
+  },
+  watch: {
+    isShow: function () {
+      // if(this.isShow) {
+      //   console.log("focus: " + this.$refs.employeeCode)
+      // }
+        this.$nextTick(() => this.$refs.employeeCode.focus())
+      }
+    },
   filters: {
     formatData: function (value, filterType) {
       switch (filterType) {
@@ -412,14 +425,6 @@ export default {
     clickBtnClose: function () {
       this.$emit("closeModal");
     },
-
-    // getData: function () {
-    //   axios
-    //     .get(`http://cukcuk.manhnv.net/v1/Employees/${this.employeeId}`)
-    //     .then((res) => {
-    //       this.employee = res.data;
-    //     });
-    // },
 
     postData: function () {
       let me = this;
@@ -443,12 +448,14 @@ export default {
 
     putData: function () {
       let me = this;
+     
       var inputs = this.$el.querySelectorAll("input");
       inputs.forEach((item) => {
         var fieldName = item.getAttribute("fieldName");
         var value = item.value;
         me.data[fieldName] = value;
       });
+       console.log(this.data)
       axios({
       method: "PUT",
       url: `http://cukcuk.manhnv.net/v1/Employees/${this.employeeId}`,
