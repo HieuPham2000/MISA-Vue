@@ -18,6 +18,9 @@
   background-color: #019160;
   color: #ffffff
 }
+.menu .menu-item.router-link-exact-active .menu-item-icon{
+  filter: brightness(0) invert(1);
+}
 </style>
 
 <script>
@@ -28,17 +31,17 @@ export default {
         {
           text: "Tổng quan",
           icon: "menu-icon-dashboard",
-          route: "/",
+          route: "/dashboard",
         },
         {
           text: "Báo cáo",
           icon: "menu-icon-report",
-          route: "/",
+          route: "/report",
         },
         {
           text: "Mua hàng",
           icon: "menu-icon-purchase",
-          route: "/",
+          route: "/purchase",
         },
         {
           text: "Danh sách khách hàng",
@@ -53,7 +56,7 @@ export default {
         {
           text: "Cài đặt",
           icon: "menu-icon-setting",
-          route: "/",
+          route: "/setting",
         },
       ],
     };
