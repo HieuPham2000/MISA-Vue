@@ -48,15 +48,62 @@
 
 <script>
 
+import axios from 'axios';
+import eventBus from '../../event-bus'
 import { CommonFunction } from "../../script/common/common";
 export default {
-  inject: ['entityId'],
   props: {
-    tableData: Array,
+    entityId: String,
     tableColumns: Array,
-    selectedRows: Array
+    deleteApi: String,
+    tableDataApi: String
   },
-
+  data() {
+    return {
+      tableData: [],
+      selectedRows: []
+    }
+  },
+  created() {
+    let me = this;
+    this.loadTableData();
+    eventBus.$on("reloadTableData", function() {
+      me.loadTableData();
+    })
+    eventBus.$on("deleteTableData", function() {
+      me.deleteEntities();
+    })
+  },
+  methods: {
+    loadTableData: function () {
+      // Gọi api thực hiện lấy dữ liệu
+      axios.get(this.tableDataApi).then((res) => {
+        this.tableData = res.data;
+      });
+    },
+     deleteEntities: function() {
+      let me = this;
+      Promise.all(this.selectedRows.map((id) => {
+        return axios.delete(`${this.deleteApi}/${id}`).then(res => console.log(res));
+      })).then(() => {
+        me.loadTableData();
+        me.selectedRows = [];
+      });    
+    },
+    clickRow: function(id) {
+      // console.log($event.target);
+      var index = this.selectedRows.indexOf(id);
+      if(index == -1) {
+        this.selectedRows.push(id);
+      } else {
+        this.selectedRows.splice(index, 1);
+      }
+    },
+    openDetailForm: function (id) {
+      this.selectedRows = [id];
+      this.$emit('openDetailForm', id);
+    }
+  },
   filters: {
     formatData: function (value, filterType) {
       switch (filterType) {
@@ -70,14 +117,6 @@ export default {
           return value;
       }
     },
-  },
-  methods: {
-    clickRow: function(id) {
-      this.$emit('clickRow', id);
-    },
-    openDetailForm: function (id) {
-      this.$emit('openModal', id);
-    }
   },
 };
 </script>

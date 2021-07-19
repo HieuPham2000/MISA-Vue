@@ -1,16 +1,34 @@
 <template>
   <div id="app">
-    <!-- <EmployeeList /> -->
-    <router-view />
+    <div id="toast-msg-container"></div>
+    <TheHeader @toggleMenu="toggleMenu" />
+    <TheMenu :class="{collapse: collapseMenu}" />
+    <router-view :expand="collapseMenu"/>
   </div>
 </template>
 
 <script>
-// import EmployeeList from './views/dictionary/employee/EmployeeList.vue'
+// import BasePopUp from './components/base/BasePopUp.vue'
+// import BaseToastMessage from './components/base/BaseToastMessage.vue'
+import TheHeader from './components/layout/TheHeader.vue'
+import TheMenu from './components/layout/TheMenu.vue'
 export default {
   name: 'App',
   components: {
-    // EmployeeList
+    TheHeader,
+    TheMenu,
+    // BaseToastMessage,
+    // BasePopUp
+  },
+  data() {
+    return {
+      collapseMenu: false,
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.collapseMenu = !this.collapseMenu;
+    },
   }
 }
 </script>
@@ -19,7 +37,4 @@ export default {
   @import './assets/font/fontawesome-5.15.1/css/all.min.css';
   @import './css/common/main.css';
   @import './css/page/employee.css';
-  #app {
-    height: 100vh;
-  }
 </style>

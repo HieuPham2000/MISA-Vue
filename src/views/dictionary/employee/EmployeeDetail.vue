@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-container" v-show="isShow">
+  <div class="modal-container">
     <!-- form modal -->
     <div class="form-modal">
       <form id="form-employee" method="POST" action="#" autocomplete="off">
@@ -28,9 +28,7 @@
               <!-- row -->
               <div class="row">
                 <div class="form-item">
-                  <label for="EmployeeCode"
-                    >Mã nhân viên (<span>*</span>)</label
-                  >
+                  <label for="EmployeeCode">Mã nhân viên (<span>*</span>)</label>
                   <input
                     type="text"
                     fieldName="employeeCode"
@@ -64,31 +62,21 @@
                     type="date"
                     fieldName="dateOfBirth"
                     :value="employee.DateOfBirth | formatData('date')"
-                  
+                    @input="employee.DateOfBirth = $event.target.value"
                     class="text-align-center"
                   />
                 </div>
                 <div class="form-item">
                   <label for="Gender">Giới tính</label>
-                  <div
+                   <BaseCombobox
                     id="cbx-gender-form"
-                    class="m-combobox"
-                    data-name="Gender"
-                  >
-                    <input
-                      class="m-combobox__input"
-                      fieldName="gender"
-                      :value="employee.Gender"
-                      type="text"
-                      placeholder="Chọn/Nhập giới tính"
-                      name="Gender"
-                      formattype="m-combobox"
-                    />
-                    <div class="m-combobox__btn" tabindex="-1">
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul class="m-combobox__dropdown"></ul>
-                  </div>
+                    dataId="id"
+                    dataName="text"
+                    placeholder="Chọn/Nhập giới tính"
+                    :fixedData="fixedDataGender"
+                    inputFieldName="Gender"
+                    v-model="employee.Gender"
+                  />
                 </div>
               </div>
               <!-- end row -->
@@ -103,7 +91,7 @@
                     number
                     type="text"
                     fieldName="identityNumber"
-                    :value="employee.IdentityNumber"
+                    v-model="employee.IdentityNumber"
                     placeholder="Nhập số CMTND/ Căn cước"
                     maxlength="12"
                     required
@@ -116,6 +104,7 @@
                     type="date"
                     fieldName="identityDate"
                     :value="employee.IdentityDate | formatData('date')"
+                    @input="employee.IdentityDate = $event.target.value"
                     formattype="yyyy-mm-dd"
                     class="text-align-center"
                   />
@@ -130,7 +119,7 @@
                   <input
                     type="text"
                     fieldName="identityPlace"
-                    :value="employee.IdentityPlace"
+                    v-model="employee.IdentityPlace"
                     placeholder="Nhập nơi cấp"
                     maxlength="100"
                   />
@@ -146,7 +135,7 @@
                     email
                     type="email"
                     fieldName="email"
-                    :value="employee.Email"
+                    v-model="employee.Email"
                     placeholder="Nhập email"
                     maxlength="320"
                     required
@@ -160,7 +149,7 @@
                     phone
                     type="tel"
                     fieldName="phoneNumber"
-                    :value="employee.PhoneNumber"
+                    v-model="employee.PhoneNumber"
                     name="PhoneNumber"
                     placeholder="Nhập số điện thoại"
                     maxlength="30"
@@ -179,53 +168,27 @@
               <div class="row">
                 <div class="form-item">
                   <label for="PositionId">Vị trí</label>
-                  <!-- <m-combobox id="cbx-position-form" 
-                  name="PositionName" placeholder="Chọn/Nhập vị trí" 
-                  data-name="Position"></m-combobox> -->
-                  <div
+                  <BaseCombobox
                     id="cbx-position-form"
-                    class="m-combobox"
-                    data-name="Position"
-                  >
-                    <input
-                      class="m-combobox__input"
-                      type="text"
-                      fieldName="positionId"
-                      :value="employee.PositionId"
-                      placeholder="Chọn/Nhập vị trí"
-                      name="PositionId"
-                      formattype="m-combobox"
-                    />
-                    <div class="m-combobox__btn" tabindex="-1">
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul class="m-combobox__dropdown"></ul>
-                  </div>
+                    dataId="PositionId"
+                    dataName="PositionName"
+                    api="http://cukcuk.manhnv.net/v1/Positions"
+                    placeholder="Chọn/Nhập vị trí"
+                    inputFieldName="PositionId"
+                    v-model="employee.PositionId"
+                  />
                 </div>
                 <div class="form-item">
                   <label for="DepartmentId">Phòng ban</label>
-                  <!-- <m-combobox id="cbx-department-form" 
-                  name="DepartmentName" placeholder="Chọn/Nhập phòng ban" 
-                  data-name="Department"></m-combobox> -->
-                  <div
+                  <BaseCombobox
                     id="cbx-department-form"
-                    class="m-combobox"
-                    data-name="Department"
-                  >
-                    <input
-                      class="m-combobox__input"
-                      type="text"
-                      fieldName="departmentId"
-                      :value="employee.DepartmentId"
-                      placeholder="Chọn/Nhập phòng ban"
-                      name="DepartmentId"
-                      formattype="m-combobox"
-                    />
-                    <div class="m-combobox__btn" tabindex="-1">
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul class="m-combobox__dropdown"></ul>
-                  </div>
+                    dataId="DepartmentId"
+                    dataName="DepartmentName"
+                    api="http://cukcuk.manhnv.net/api/Department"
+                    placeholder="Chọn/Nhập phòng ban"
+                    inputFieldName="DepartmentId"
+                    v-model="employee.DepartmentId"
+                  />
                 </div>
               </div>
               <!-- end row -->
@@ -237,7 +200,7 @@
                     number
                     type="text"
                     fieldName="personalTaxCode"
-                    :value="employee.PersonalTaxCode"
+                    v-model="employee.PersonalTaxCode"
                     name="PersonalTaxCode"
                     placeholder="Nhập mã số thuế"
                     maxlength="13"
@@ -253,6 +216,7 @@
                       type="text"
                       fieldName="salary"
                       :value="employee.Salary | formatData('money')"
+                      @input="employee.Salary = normalizeMoney($event.target.value)"
                       name="Salary"
                       maxlength="14"
                       class="text-align-right"
@@ -271,34 +235,22 @@
                     type="date"
                     fieldName="joinDate"
                     :value="employee.JoinDate | formatData('date')"
+                    @input="employee.JoinDate = $event.target.value"
                     name="JoinDate"
                     class="text-align-center"
                   />
                 </div>
                 <div class="form-item">
                   <label for="WorkStatus">Tình trạng công việc</label>
-                  <!-- <m-combobox id="cbx-workstatus-form" 
-                    name="WorkStatus" placeholder="Chọn/Nhập tình trạng công việc" 
-                    data-name="WorkStatus"></m-combobox> -->
-                  <div
+                  <BaseCombobox
                     id="cbx-workstatus-form"
-                    class="m-combobox"
-                    data-name="WorkStatus"
-                  >
-                    <input
-                      class="m-combobox__input"
-                      type="text"
-                      fieldName="workStatus"
-                      :value="employee.WorkStatus"
-                      placeholder="Chọn/Nhập tình trạng công việc"
-                      name="WorkStatus"
-                      formattype="m-combobox"
-                    />
-                    <div class="m-combobox__btn" tabindex="-1">
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul class="m-combobox__dropdown"></ul>
-                  </div>
+                    dataId="id"
+                    dataName="text"
+                    placeholder="Chọn/Nhập tình trạng công việc"
+                    :fixedData="fixedDataWorkStatus"
+                    inputFieldName="WorkStatus"
+                    v-model="employee.WorkStatus"
+                  />
                 </div>
               </div>
               <!-- end row -->
@@ -343,79 +295,51 @@
 <script>
 import axios from "axios";
 import { CommonFunction } from "../../../script/common/common";
+import BaseCombobox from '../../../components/base/BaseCombobox.vue';
+import eventBus from '../../../event-bus';
+import { ADD, EDIT } from "../../../script/page/employee-page";
+import mixin from "../../../script/page/employee-detail";
 
 export default {
+  components: { BaseCombobox },
   props: {
-    isShow: Boolean,
-    employeeId: String,
-    employee: Object,
+    dataEmployee: Object,
+    status: String,
   },
+  mixins: [mixin],
   data() {
     return {
-      // employee: {},
-      data: {
-        createdDate: null, // string (date -> json)
-        createdBy: null, // string
-        modifiedDate: null, // string (date -> json)
-        modifiedBy: null, // string
-        // "employeeId": null, // string
-        employeeCode: null, // string
-        firstName: null, // string
-        lastName: null, // string
-        fullName: null, // string
-        gender: 0, // number
-        dateOfBirth: null, // string (date -> json)
-        phoneNumber: null, // string
-        email: null, // string
-        address: null, // string
-        identityNumber: null, // string
-        identityDate: null, // string (date -> json)
-        identityPlace: null,
-        joinDate: null, // string (date -> json)
-        martialStatus: 0, // number
-        educationalBackground: 0, // number
-        qualificationId: null, // string
-        departmentId: null, // string
-        positionId: null, // string
-        workStatus: 0, // number
-        personalTaxCode: null, // string
-        salary: 0, // number
-        positionCode: null, // string
-        positionName: null, // string
-        departmentCode: null, // string
-        departmentName: null, // string
-        qualificationName: null, // string
-      },
+      fixedDataGender: [
+        {id: 0, text: "Nữ"},
+        {id: 1, text: "Nam"},
+        {id: 2, text: "Không xác định"}
+      ],
+      fixedDataWorkStatus: [
+        {id: 1, text: "Đã nghỉ việc"},
+        {id: 2, text: "Đang thử việc"},
+        {id: 3, text: "Đang làm việc"}
+      ]
     };
   },
-  computed: {
-    dateOfBirthFormatted: {
-      get: function() {
-        return CommonFunction.formatDateYYYYMMDD(this.employee.DateOfBirth);
-      },
-      set: function(newValue) {
-        this.employee.DateOfBirth = newValue;
+  created() {
+    for(var fieldName in this.employee) {
+      var value = this.dataEmployee[fieldName];
+      if(value) {
+        this.employee[fieldName] = value;
       }
-      
     }
   },
-  watch: {
-    isShow: function () {
-      // if(this.isShow) {
-      //   console.log("focus: " + this.$refs.employeeCode)
-      // }
-        this.$nextTick(() => this.$refs.employeeCode.focus())
-      }
-    },
+  mounted() {
+    // this.$nextTick(() => this.$refs.employeeCode.focus());
+    this.$refs.employeeCode.focus();
+  },
   filters: {
     formatData: function (value, filterType) {
       switch (filterType) {
         case "date":
           return CommonFunction.formatDateYYYYMMDD(value);
         case "money":
-          return CommonFunction.formatMoney(value);
-        case "work-status":
-          return CommonFunction.formatWorkStatus(value);
+          return CommonFunction.formatInputMoney(value);
         default:
           return value;
       }
@@ -426,57 +350,48 @@ export default {
       this.$emit("closeModal");
     },
 
+    normalizeMoney: function(value) {
+      // console.log("before normalize: " + value)
+      value = value.toString().replaceAll(",", "").replaceAll(".", "");
+      // value.replaceAll(",", "");
+      // value.replaceAll(".", "");
+      // console.log("after normalize: " + value)
+      return value;
+    },
     postData: function () {
-      let me = this;
-      var inputs = this.$el.querySelectorAll("input");
-      inputs.forEach((item) => {
-        var fieldName = item.getAttribute("fieldName");
-        var value = item.value;
-        me.data[fieldName] = value;
-      })
       axios({
-      method: "POST",
-      url: `http://cukcuk.manhnv.net/v1/Employees`,
-      data: this.data,
-      contentType: "application/json",
-      dataType: "json"
-    }).then((res) => {
-          console.log(res);
-          // this.$emit('reloadTableData');
-    });
+        method: "POST",
+        url: `http://cukcuk.manhnv.net/v1/Employees`,
+        data: this.employee,
+        contentType: "application/json",
+        dataType: "json",
+      }).then(() => {
+        eventBus.$emit("reloadTableData");
+        this.$emit("closeModal");
+      });
     },
 
     putData: function () {
-      let me = this;
-     
-      var inputs = this.$el.querySelectorAll("input");
-      inputs.forEach((item) => {
-        var fieldName = item.getAttribute("fieldName");
-        var value = item.value;
-        me.data[fieldName] = value;
-      });
-       console.log(this.data)
+      this.employee.EmployeeId = this.dataEmployee.EmployeeId;
       axios({
-      method: "PUT",
-      url: `http://cukcuk.manhnv.net/v1/Employees/${this.employeeId}`,
-      data: this.data,
-      contentType: "application/json",
-      dataType: "json"
-    }).then((res) => {
-          console.log(res);
-          this.$emit('reloadTableData');
-        });
+        method: "PUT",
+        url: `http://cukcuk.manhnv.net/v1/Employees/${this.employee.EmployeeId}`,
+        data: this.employee,
+        contentType: "application/json",
+        dataType: "json",
+      }).then(() => {
+        eventBus.$emit("reloadTableData");
+        this.$emit("closeModal");
+      });
     },
 
-    submitForm: function() {
-      if (this.employeeId) {
-        this.putData();
-      } else {
-        this.postData();
+    submitForm: function () {
+      switch(this.status) {
+        case ADD: 
+          this.postData(); break;
+        case EDIT:
+          this.putData(); break;
       }
-      this.$emit('reloadTableData');
-      this.$emit('reloadTableData');
-      this.$emit("closeModal");
     },
   },
 };

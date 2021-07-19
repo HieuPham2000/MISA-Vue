@@ -10,14 +10,15 @@
 }
 .form-modal {
   background-color: #ffffff;
-  /* margin: 20px auto; */
   margin: auto;
   width: min(50%, 600px);
   min-width: min(50%, 600px);
   max-width: max(50%, 600px);
   border-radius: 4px;
-  resize: horizontal;
-  overflow: auto;
+  /* resize: horizontal;
+  overflow-x: auto;
+  max-height: fit-content;
+  overflow-y: initial; */
 }
 
 .form-modal form {
@@ -25,6 +26,8 @@
   display: block;
   width: 100%;
   height: 100%;
+  /* max-height: 100%;
+  overflow:initial; */
 }
 
 .form-icon-close {

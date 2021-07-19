@@ -65,6 +65,16 @@ export class CommonFunction {
     return salary ? salary.toLocaleString("it-IT") : "";
   }
 
+  static formatInputMoney(value) {
+    // console.log("before format: " + value);
+    if(value == "") {
+      return;
+    }
+    value = Number(value).toLocaleString("it-IT");
+    // console.log("after format: " + value);
+    return value;
+  }
+
   /**
    * Chuyển giá trị work status dạng số sang xâu mô tả tương ứng
    * @param {number} code 
