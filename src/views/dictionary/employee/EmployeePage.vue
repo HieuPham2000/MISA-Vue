@@ -36,7 +36,7 @@
           dataName="DepartmentName" 
           api="http://cukcuk.manhnv.net/api/Department" 
           placeholder="Chọn/Nhập phòng ban"
-          :defaultItems="['Tất cả phòng ban']"
+          :extraItems="[{DepartmentName: 'Tất cả phòng ban', DepartmentId: null}]"
         />
 
         <BaseCombobox 
@@ -45,7 +45,7 @@
           dataName="PositionName" 
           api="http://cukcuk.manhnv.net/v1/Positions" 
           placeholder="Chọn/Nhập vị trí"
-          :defaultItems="['Tất cả vị trí']"
+          :extraItems="[{PositionName: 'Tất cả vị trí', PositionId: null}]"
         />
 
       </div>
@@ -83,9 +83,9 @@
 <script>
 import axios from "axios";
 import mixin from "../../../script/page/employee-page";
-import { ADD, EDIT } from "../../../script/page/employee-page";
 
 import eventBus from "../../../event-bus"
+import {EMPLOYEE_ACTION, TOAST_TYPE} from "../../../type"
 import BaseCombobox from "../../../components/base/BaseCombobox.vue";
 import EmployeeDetail from "./EmployeeDetail.vue";
 import TheGrid from "../../../components/layout/TheGrid.vue";
@@ -105,14 +105,14 @@ export default {
   methods: {
     openFormAdd: function() {
       let me = this;
-      this.status = ADD;
-      this.getNewEmployeeCode().then(() => {
+      this.status = EMPLOYEE_ACTION.ADD;
+      this.getNewEmployeeCode().finally(() => {
         me.openModal();
       })
     },
     openFormEdit: function(id) {
       let me = this;
-      this.status = EDIT;
+      this.status = EMPLOYEE_ACTION.EDIT;
       this.getData(id).then(() => {
         me.openModal();
       })
@@ -128,6 +128,9 @@ export default {
         .get(`${this.tableDataApi}/${id}`)
         .then((res) => {
           this.dataEmployee = res.data;
+        }).catch(() => {
+          this.$toast(TOAST_TYPE.DANGER, "Không lấy được thông tin nhân viên!");
+          this.reloadTableData();
         });
       return promise;
     },
@@ -136,10 +139,13 @@ export default {
         .get(`${this.tableDataApi}/NewEmployeeCode`)
         .then((res) => {
           this.dataEmployee = { EmployeeCode: res.data };
+        })
+        .catch(() => {
+          this.$toast(TOAST_TYPE.DANGER, "Không lấy được mã nhân viên mới!");
         });
     },
     reloadTableData: function() {
-      eventBus.$emit("reloadTableData");
+      eventBus.$emit("reloadTableData", true);
     },
     deleteTableData: function() {
       eventBus.$emit("deleteTableData");
@@ -150,7 +156,7 @@ export default {
       showModal: false,
       entityId: "EmployeeId",
       dataEmployee: {},
-      status: ADD
+      status: EMPLOYEE_ACTION.ADD
     };
   },
 };

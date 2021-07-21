@@ -266,16 +266,15 @@
             type="button"
             class="m-btn-default m-btn-cancel"
             tabindex="0"
-            @click="clickBtnClose()"
+            @click="clickBtnClose"
           >
             Hủy
           </button>
           <button
             type="button"
-            id="btn-submit"
             class="m-btn m-btn-default"
             tabindex="0"
-            @click="submitForm()"
+            @click="clickBtnSubmit"
           >
             <i class="far fa-save"></i>
             <div class="btn-text">Lưu</div>
@@ -297,7 +296,7 @@ import axios from "axios";
 import { CommonFunction } from "../../../script/common/common";
 import BaseCombobox from '../../../components/base/BaseCombobox.vue';
 import eventBus from '../../../event-bus';
-import { ADD, EDIT } from "../../../script/page/employee-page";
+import {EMPLOYEE_ACTION, TOAST_TYPE, POPUP_TYPE} from "../../../type"
 import mixin from "../../../script/page/employee-detail";
 
 export default {
@@ -318,19 +317,51 @@ export default {
         {id: 1, text: "Đã nghỉ việc"},
         {id: 2, text: "Đang thử việc"},
         {id: 3, text: "Đang làm việc"}
-      ]
+      ],
+      dataPopUpCloseForm: {
+        type: POPUP_TYPE.WARNING,
+        title: "Đóng biểu mẫu",
+        content: 'Bạn có chắc muốn "Đóng biểu mẫu" hay không?',
+        btnCancel: "Tiếp tục nhập",
+        btnDo: "Đóng",
+        actionDo: EMPLOYEE_ACTION.CLOSE_FORM
+      },
+      dataPopUpAddEmployee: {
+        type: POPUP_TYPE.INFO,
+        title: "Thêm nhân viên mới",
+        content: 'Bạn có chắc muốn "Thêm nhân viên mới" hay không?',
+        btnCancel: "Hủy",
+        btnDo: "Thêm",
+        actionDo: EMPLOYEE_ACTION.ADD
+      },
+      dataPopUpEditEmployee: {
+        type: POPUP_TYPE.INFO,
+        title: "Cập nhật thông tin nhân viên",
+        content: 'Bạn có chắc muốn "Cập nhật thông tin nhân viên" hay không?',
+        btnCancel: "Hủy",
+        btnDo: "Cập nhật",
+        actionDo: EMPLOYEE_ACTION.EDIT
+      },
     };
   },
   created() {
     for(var fieldName in this.employee) {
       var value = this.dataEmployee[fieldName];
-      if(value) {
+      if(value != undefined && value != null) {
         this.employee[fieldName] = value;
       }
     }
+
+    eventBus.$on(EMPLOYEE_ACTION.ADD, this.postData);
+    eventBus.$on(EMPLOYEE_ACTION.EDIT, this.putData);
+    eventBus.$on(EMPLOYEE_ACTION.CLOSE_FORM, this.closeForm);
+  },
+  destroyed() {
+    eventBus.$off(EMPLOYEE_ACTION.ADD, this.postData);
+    eventBus.$off(EMPLOYEE_ACTION.EDIT, this.putData);
+    eventBus.$off(EMPLOYEE_ACTION.CLOSE_FORM, this.closeForm);
   },
   mounted() {
-    // this.$nextTick(() => this.$refs.employeeCode.focus());
     this.$refs.employeeCode.focus();
   },
   filters: {
@@ -347,7 +378,21 @@ export default {
   },
   methods: {
     clickBtnClose: function () {
+      eventBus.$emit("openPopUp", this.dataPopUpCloseForm);
+    },
+    closeForm: function() {
       this.$emit("closeModal");
+    },
+
+    clickBtnSubmit: function () {
+      switch(this.status) {
+        case EMPLOYEE_ACTION.ADD: 
+          eventBus.$emit("openPopUp", this.dataPopUpAddEmployee);
+          break;
+        case EMPLOYEE_ACTION.EDIT:
+          eventBus.$emit("openPopUp", this.dataPopUpEditEmployee); 
+          break;
+      }
     },
 
     normalizeMoney: function(value) {
@@ -366,12 +411,18 @@ export default {
         contentType: "application/json",
         dataType: "json",
       }).then(() => {
-        eventBus.$emit("reloadTableData");
+        this.$toast(TOAST_TYPE.SUCCESS, "Thêm nhân viên thành công!");
+      }).catch(() => {
+        this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, thêm mới thất bại!");
+      }).finally(() => {
         this.$emit("closeModal");
+        eventBus.$emit("reloadTableData");
       });
     },
 
     putData: function () {
+      console.log('hello put');
+      
       this.employee.EmployeeId = this.dataEmployee.EmployeeId;
       axios({
         method: "PUT",
@@ -380,19 +431,16 @@ export default {
         contentType: "application/json",
         dataType: "json",
       }).then(() => {
-        eventBus.$emit("reloadTableData");
+        this.$toast(TOAST_TYPE.SUCCESS, "Cập nhật thông tin thành công!");
+      }).catch(() => {
+        this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, cập nhật thất bại!");
+      }).finally(() => {
         this.$emit("closeModal");
+        eventBus.$emit("reloadTableData");
       });
     },
 
-    submitForm: function () {
-      switch(this.status) {
-        case ADD: 
-          this.postData(); break;
-        case EDIT:
-          this.putData(); break;
-      }
-    },
+    
   },
 };
 </script>

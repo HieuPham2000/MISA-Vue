@@ -12,7 +12,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <transition-group tag="tbody" name="table-rows">
         <tr
           v-for="(row, index) in tableData"
           :key="index"
@@ -35,7 +35,7 @@
             {{ row[column.fieldName] | formatData(column.filter) }}
           </td>
         </tr>
-      </tbody>
+      </transition-group>
     </table>
   </div>
 </template>
@@ -44,12 +44,17 @@
 @import "../../css/layout/page.css";
 @import "../../css/layout/grid.css";
 @import "../../css/page/employee.css";
+
+.table-rows-move {
+  transition: transform 3s;
+}
 </style>
 
 <script>
 
 import axios from 'axios';
 import eventBus from '../../event-bus'
+import {TOAST_TYPE} from '../../type'
 import { CommonFunction } from "../../script/common/common";
 export default {
   props: {
@@ -67,27 +72,58 @@ export default {
   created() {
     let me = this;
     this.loadTableData();
-    eventBus.$on("reloadTableData", function() {
-      me.loadTableData();
+    eventBus.$on("reloadTableData", function(toast) {
+      me.loadTableData(toast);
     })
     eventBus.$on("deleteTableData", function() {
       me.deleteEntities();
     })
   },
+  destroyed() {
+    let me = this;
+    eventBus.$off("reloadTableData", function(toast) {
+      me.loadTableData(toast);
+    })
+    eventBus.$off("deleteTableData", function() {
+      me.deleteEntities();
+    })
+  },
   methods: {
-    loadTableData: function () {
+    loadTableData: function (toast = false) {
       // Gọi api thực hiện lấy dữ liệu
-      axios.get(this.tableDataApi).then((res) => {
+      axios.get(this.tableDataApi)
+      .then((res) => {
         this.tableData = res.data;
+        if(toast) {
+        this.$toast(TOAST_TYPE.SUCCESS, "Dữ liệu đã được cập nhật!");
+      }
+      })
+      .catch(() => {
+        this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, không thể cập nhật dữ liệu!");
       });
+      
     },
      deleteEntities: function() {
+      if(this.selectedRows.length == 0) {
+        this.$toast(TOAST_TYPE.DANGER, "Chưa chọn bản ghi!");
+      }
+
       let me = this;
-      Promise.all(this.selectedRows.map((id) => {
-        return axios.delete(`${this.deleteApi}/${id}`).then(res => console.log(res));
-      })).then(() => {
+      Promise.all(
+        this.selectedRows.map((id) => {
+          return axios.delete(`${this.deleteApi}/${id}`).then(res => console.log(res));
+        })
+      )
+      .then(() => {
         me.loadTableData();
         me.selectedRows = [];
+      })
+      .then(() => {
+        console.log("Xóa")
+        this.$toast(TOAST_TYPE.SUCCESS, "Xóa thành công!");
+      })
+      .catch(() => {
+        this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra trong quá trình xóa!");
       });    
     },
     clickRow: function(id) {
