@@ -1,15 +1,33 @@
 <template>
   <div id="app">
-    <EmployeePage />
+    <div id="toast-msg-container" ref="toast-msg-container"></div>
+    <BasePopUp />
+    <TheHeader @toggleMenu="toggleMenu" />
+    <TheMenu :class="{collapse: collapseMenu}" />
+    <router-view :expand="collapseMenu"/>
   </div>
 </template>
 
 <script>
-import EmployeePage from './views/dictionary/employee/EmployeePage.vue'
+import BasePopUp from './components/base/BasePopUp.vue'
+import TheHeader from './components/layout/TheHeader.vue'
+import TheMenu from './components/layout/TheMenu.vue'
 export default {
   name: 'App',
   components: {
-    EmployeePage
+    TheHeader,
+    TheMenu,
+    BasePopUp,
+  },
+  data() {
+    return {
+      collapseMenu: false,
+    }
+  },
+  methods: {
+    toggleMenu: function() {
+      this.collapseMenu = !this.collapseMenu;
+    },
   }
 }
 </script>

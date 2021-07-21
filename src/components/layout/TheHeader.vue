@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <div class="sidebar"></div>
+      <div class="sidebar" @click="toggleMenu"></div>
       <div class="logo"></div>
     </div>
     <div class="header-right">
@@ -34,6 +34,10 @@
 
 <script>
 export default {
-  name: "TheHeader",
+  methods: {
+    toggleMenu: function(){
+      this.$emit("toggleMenu");
+    }
+  }
 };
 </script>

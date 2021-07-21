@@ -41,17 +41,25 @@ export class CommonFunction {
    * @author pthieu (05-07-2021)
    */
   static formatDateYYYYMMDD(date) {
+   
     if (!date) {
       return '';
     }
     let dateOrigin = new Date(date);
-
     let d = dateOrigin.getDate();
     d = d > 9 ? d : `0${d}`;
     let m = dateOrigin.getMonth() + 1; // tháng bắt đầu từ 0
     m = m > 9 ? m : `0${m}`;
     let y = dateOrigin.getFullYear();
+    if(y < 10) {
+      y = `000${y}`;
+    } else if(y < 100) {
+      y = `00${y}`;
+    } else if(y < 1000) {
+      y = `0${y}`;
+    }
     let dateString = `${y}-${m}-${d}`;
+
     return dateString;
   }
 
@@ -63,6 +71,16 @@ export class CommonFunction {
    */
   static formatMoney(salary) {
     return salary ? salary.toLocaleString("it-IT") : "";
+  }
+
+  static formatInputMoney(value) {
+    // console.log("before format: " + value);
+    if(value == "") {
+      return;
+    }
+    value = Number(value).toLocaleString("it-IT");
+    // console.log("after format: " + value);
+    return value;
   }
 
   /**
