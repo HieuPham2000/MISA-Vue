@@ -1,69 +1,115 @@
 <template>
-  <div id="popup-container">
+<transition name="fade">
+  <div id="popup-container" v-show="isShow">
     <div class="popup">
       <div class="popup-icon-close" @click="closePopUp">
         <img src="../../assets/icon/x.svg" />
       </div>
       <div class="popup-title">{{ title }}</div>
       <div class="popup-content">
-        <div class="popup-icon">
-          <img src="" />
+        <div v-if="type == POPUP_TYPE.DANGER" class="popup-icon">
+          <img src="../../assets/icon/alarm.png" />
         </div>
-        <div class="popup-text">{{ content }}</div>
+        <div v-else-if="type == POPUP_TYPE.WARNING" class="popup-icon">
+          <img src="../../assets/icon/warning.png" />
+        </div>
+        <div class="popup-text" :inner-html.prop="content | decoContent"></div>
       </div>
       <div class="popup-footer">
         <button
-          v-if="btnCancel.have"
+          v-if="btnCancel"
           type="button"
+          tabindex="0"
           class="m-btn-default m-btn-cancel"
-          @click="btnCancel.action"
+          @click="closePopUp"
+          autofocus
         >
-          {{ btnCancel.name }}
+          {{ btnCancel }}
         </button>
         <button
-          v-if="btnDanger.have"
+          v-if="btnDanger"
           type="button"
+          tabindex="0"
           class="m-btn-default m-btn-danger"
-          @click="btnDanger.action"
+          @click="doAction"
         >
-          {{ btnDanger.name }}
+          {{ btnDanger }}
         </button>
         <button
-          v-if="btnDo.have"
+          v-if="btnDo"
           type="button"
+          tabindex="0"
           class="m-btn-default m-btn-do"
-          @click="btnDo.action"
+          @click="doAction"
         >
-          {{ btnDo.name }}
+          {{ btnDo }}
         </button>
       </div>
     </div>
   </div>
+</transition>
 </template>
 
 <style>
 @import "../../css/common/pop-up.css";
+.fade-enter-active, .face-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .face-leave-to {
+  opacity: 0;
+}
+
 </style>
 
 <script>
+import { POPUP_TYPE } from "../../type";
+import eventBus from "../../event-bus";
+import {CommonFunction} from '../../script/common/common'
 export default {
-  props: {
-    title: String,
-    content: String,
-    btnCancel: {
-      have: Boolean,
-      name: String,
-      action: Function,
+  created() {
+    eventBus.$on("openPopUp", this.openPopUp);
+  },
+  destroyed() {
+    eventBus.$off("openPopUp", this.openPopUp);
+  },
+  data() {
+    return {
+      isShow: false,
+      POPUP_TYPE: POPUP_TYPE,
+      type: null,
+      title: "",
+      content: "",
+      btnCancel: null,
+      btnDo: null,
+      btnDanger: null,
+      actionDo: null
+    };
+  },
+  filters: {
+    decoContent: function(content) {
+      return CommonFunction.decoString(content);
+    }
+  },
+  methods: {
+    openPopUp: function (propsData) {
+      this.type = propsData.type;
+      this.title = propsData.title;
+      this.content = propsData.content;
+      this.btnCancel = propsData.btnCancel;
+      this.btnDo = propsData.btnDo;
+      this.btnDanger = propsData.btnDanger;
+      this.actionDo = propsData.actionDo;
+
+      this.isShow = true;
+      // this.$emit("showPopUp");
     },
-    btnDo: {
-      have: Boolean,
-      name: String,
-      action: Function,
+    closePopUp: function () {
+      this.isShow = false;
+      // this.$emit("hidePopUp");
     },
-    btnDanger: {
-      have: Boolean,
-      name: String,
-      action: Function,
+    doAction: function () {
+      eventBus.$emit(this.actionDo);
+      this.closePopUp();
     },
   },
 };

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <div id="toast-msg-container"></div>
+    <div id="toast-msg-container" ref="toast-msg-container"></div>
+    <BasePopUp />
     <TheHeader @toggleMenu="toggleMenu" />
     <TheMenu :class="{collapse: collapseMenu}" />
     <router-view :expand="collapseMenu"/>
@@ -8,8 +9,7 @@
 </template>
 
 <script>
-// import BasePopUp from './components/base/BasePopUp.vue'
-// import BaseToastMessage from './components/base/BaseToastMessage.vue'
+import BasePopUp from './components/base/BasePopUp.vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheMenu from './components/layout/TheMenu.vue'
 export default {
@@ -17,8 +17,7 @@ export default {
   components: {
     TheHeader,
     TheMenu,
-    // BaseToastMessage,
-    // BasePopUp
+    BasePopUp,
   },
   data() {
     return {
@@ -26,7 +25,7 @@ export default {
     }
   },
   methods: {
-    toggleMenu() {
+    toggleMenu: function() {
       this.collapseMenu = !this.collapseMenu;
     },
   }
