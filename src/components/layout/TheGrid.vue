@@ -85,15 +85,16 @@ export default {
   },
 
   created() {
-    let me = this;
     // Tiến hành load dữ liệu trong bảng
     this.loadTableData();
 
     // Lắng nghe các sự kiện truyền qua eventBus
     // Reload dữ liệu (nhấn btn refresh, auto reload sau post, put...)
-    eventBus.$on("reloadTableData", function(toast) {
-      me.loadTableData(toast);
-    })
+    
+    // eventBus.$on("reloadTableData", function(toast) {
+    //   me.loadTableData(toast);
+    // })
+    eventBus.$on("reloadTableData", this.loadTableData)
     // Lắng nghe sự kiện nhấn btn Xóa 
     eventBus.$on("clickBtnDelete", this.clickBtnDelete );
     // Lắng nghe sự kiện xóa nhân viên
@@ -101,15 +102,9 @@ export default {
   },
 
   destroyed() {
-    let me = this;
     // Gỡ bỏ lắng nghe sự kiện
-    eventBus.$off("reloadTableData", function(toast) {
-      me.loadTableData(toast);
-    });
-    eventBus.$off("deleteTableData", function() {
-      me.deleteEntities();
-    });
-    eventBus.$off("clickBtnDelete", me.clickBtnDelete );
+    eventBus.$off("reloadTableData", this.loadTableData);
+    eventBus.$off("clickBtnDelete", this.clickBtnDelete);
     eventBus.$off(EMPLOYEE_ACTION.DELETE, this.deleteEntities);
   },
 
