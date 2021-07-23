@@ -22,7 +22,7 @@
           tabindex="0"
           class="m-btn-default m-btn-cancel"
           @click="closePopUp"
-          autofocus
+          ref="btnFocus"
         >
           {{ btnCancel }}
         </button>
@@ -101,6 +101,7 @@ export default {
       this.actionDo = propsData.actionDo;
 
       this.isShow = true;
+      this.$nextTick(() => this.$refs.btnFocus.focus());
       // this.$emit("showPopUp");
     },
     closePopUp: function () {

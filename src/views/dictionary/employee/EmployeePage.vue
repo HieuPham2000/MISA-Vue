@@ -50,7 +50,7 @@
 
       </div>
       <div class="toolbar-right">
-        <button type="button" class="m-second-button" id="btn-delete" @click="deleteTableData">
+        <button type="button" class="m-second-button" id="btn-delete" @click="clickBtnDelete">
           <i class="far fa-trash-alt"></i>
         </button>
         <button
@@ -147,8 +147,8 @@ export default {
     reloadTableData: function() {
       eventBus.$emit("reloadTableData", true);
     },
-    deleteTableData: function() {
-      eventBus.$emit("deleteTableData");
+    clickBtnDelete: function() {
+      eventBus.$emit("clickBtnDelete");
     }
   },
   data() {
