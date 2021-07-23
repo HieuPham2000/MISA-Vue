@@ -7,16 +7,11 @@
     <div class="header-right">
       <div class="restaurant-info">
         <!-- select box restaurant -->
-        <div class="m-selectbox">
-          <div class="m-selectbox__content" tabindex="-1">Nhà hàng Biển Đông</div>
-          <div class="m-selectbox__btn" tabindex="-1"><i class="fas fa-chevron-down"></i></div>
-          <ul class="m-selectbox__dropdown">
-            <li class="m-selectbox__dropdown__item selected"><i class="fas fa-check"></i>Nhà hàng Biển Đông</li>
-            <li class="m-selectbox__dropdown__item"><i class="fas fa-check"></i>Nhà hàng Biển Tây</li>
-            <li class="m-selectbox__dropdown__item"><i class="fas fa-check"></i>Nhà hàng Biển Nam</li>
-            <li class="m-selectbox__dropdown__item"><i class="fas fa-check"></i>Nhà hàng Biển Bắc</li>
-          </ul>
-        </div>
+        <BaseSelectBox :fixedData="restaurantSelectItems" v-model="restaurantId">
+          <template v-slot:m-selectbox-icon>
+            <i class="fas fa-chevron-down"></i>
+          </template>
+        </BaseSelectBox>
         <!-- end select box restaurant -->
       </div>
       <div class="account-info">
@@ -33,11 +28,20 @@
 </style>
 
 <script>
+import BaseSelectBox from '../base/BaseSelectBox.vue';
+import {RESTAURANT_SELECT_ITEMS} from '../../constant';
 export default {
+  components: { BaseSelectBox },
+  data() {
+    return {
+      restaurantSelectItems: RESTAURANT_SELECT_ITEMS,
+      restaurantId: 1
+    }
+  },
   methods: {
     toggleMenu: function(){
       this.$emit("toggleMenu");
-    }
+    },
   }
 };
 </script>

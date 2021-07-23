@@ -18,30 +18,28 @@
       <!-- end button control page -->
 
       <!-- selectbox select number of records -->
-      <div class="m-selectbox paging-limit">
-        <div class="m-selectbox__content" tabindex="-1">20 nhân viên/trang</div>
-        <div class="m-selectbox__btn" tabindex="-1">
-          <i class="fas fa-sort"></i>
-        </div>
-        <ul class="m-selectbox__dropdown">
-          <li class="m-selectbox__dropdown__item">
-            <i class="fas fa-check"></i>10 nhân viên/trang
-          </li>
-          <li class="m-selectbox__dropdown__item selected">
-            <i class="fas fa-check"></i>20 nhân viên/trang
-          </li>
-          <li class="m-selectbox__dropdown__item">
-            <i class="fas fa-check"></i>30 nhân viên/trang
-          </li>
-        </ul>
-      </div>
+       <BaseSelectBox :fixedData="pageSizeSelectItems" v-model="pageSizeValue" :extraClass="['paging-limit']" :showAbove="true">
+          <template v-slot:m-selectbox-icon>
+            <i class="fas fa-sort"></i>
+          </template>
+        </BaseSelectBox>
       <!-- end selectbox -->
     </div>
 </template>
 
 <script>
+import BaseSelectBox from '../base/BaseSelectBox.vue';
+import {PAGE_SIZE_SELECT_ITEMS} from '../../constant'
 export default {
-  
+  components: {
+    BaseSelectBox
+  },
+  data() {
+    return {
+      pageSizeSelectItems: PAGE_SIZE_SELECT_ITEMS,
+      pageSizeValue: 20,
+    }
+  }
 }
 </script>
 

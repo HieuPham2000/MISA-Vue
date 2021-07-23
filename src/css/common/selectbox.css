@@ -4,11 +4,16 @@
 .m-selectbox {
   position: relative;
   background-color: #ffffff;
+  width: fit-content;
+  user-select: none;
+  cursor: context-menu;
+}
+
+.m-selectbox__main {
+  outline: none;
   display: flex;
   align-items: center;
   gap: 10px;
-  width: fit-content;
-  cursor: context-menu;
 }
 
 .m-selectbox__content, .m-selectbox__btn {
