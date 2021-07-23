@@ -37,6 +37,7 @@
         </tr>
       </transition-group>
     </table>
+    <TheLoader v-show="isLoading"/>
   </div>
 </template>
 
@@ -54,9 +55,12 @@
 
 import axios from 'axios';
 import eventBus from '../../event-bus'
-import {TOAST_TYPE, POPUP_TYPE, EMPLOYEE_ACTION} from '../../type'
+import {TOAST_TYPE, EMPLOYEE_ACTION} from '../../type'
+import {POP_UP_EMPLOYEE} from '../../constant'
 import { CommonFunction } from "../../script/common/common";
+import TheLoader from './TheLoader.vue';
 export default {
+  components: { TheLoader },
   props: {
     entityId: String, // tên trường id, VD: EmployeeId
     tableColumns: Array, // danh sách các cột trong bảng (và thông tin đi kèm)
@@ -68,14 +72,8 @@ export default {
     return {
       tableData: [], // Mảng dữ liệu nhận được sau khi load api
       selectedRows: [], // Mảng các hàng được click chọn
-      dataPopUpDelete: { // Thông tin về pop up Xóa
-        type: POPUP_TYPE.DANGER,
-        title: "Xóa bản ghi",
-        content: 'Bạn có chắc muốn "Xóa bản ghi" hay không?',
-        btnCancel: "Hủy",
-        btnDanger: "Xóa",
-        actionDo: EMPLOYEE_ACTION.DELETE
-      }
+      dataPopUpDelete: {...POP_UP_EMPLOYEE.DELETE}, // Thông tin về pop up Xóa
+      isLoading: false,
     }
   },
 
@@ -115,6 +113,7 @@ export default {
      * @author pthieu (21-07-2021)
      */
     loadTableData: function (toast = false) {
+      this.isLoading = true;
       // Gọi api thực hiện lấy dữ liệu
       axios.get(this.tableDataApi)
       .then((res) => {
@@ -125,8 +124,9 @@ export default {
       })
       .catch(() => {
         this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, không thể cập nhật dữ liệu!");
+      }).finally(() => {
+        setTimeout(() => this.isLoading = false, 1000);
       });
-      
     },
 
     /**
