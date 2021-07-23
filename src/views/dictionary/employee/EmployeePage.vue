@@ -106,18 +106,34 @@ export default {
   },
   methods: {
     openFormAdd: function() {
-      let me = this;
+      // let me = this;
       this.status = EMPLOYEE_ACTION.ADD;
-      this.getNewEmployeeCode().finally(() => {
-        me.openModal();
-      })
+      // this.getNewEmployeeCode().finally(() => {
+      //   me.openModal();
+      // })
+      this.getNewEmployeeCode().then((res) => {
+          this.dataEmployee = { EmployeeCode: res.data };
+        })
+        .catch(() => {
+          this.$toast(TOAST_TYPE.DANGER, "Không lấy được mã nhân viên mới!");
+        })
+        .finally(() => {
+          this.openModal();
+        });
     },
     openFormEdit: function(id) {
-      let me = this;
+      // let me = this;
       this.status = EMPLOYEE_ACTION.EDIT;
-      this.getData(id).then(() => {
-        me.openModal();
-      })
+      // this.getData(id).then(() => {
+      //   me.openModal();
+      // })
+      this.getData(id).then((res) => {
+          this.dataEmployee = res.data;
+          this.openModal();
+        }).catch(() => {
+          this.$toast(TOAST_TYPE.DANGER, "Không lấy được thông tin nhân viên!");
+          this.reloadTableData();
+        });
     },
     openModal: function() {
       this.showModal = true;
@@ -126,25 +142,10 @@ export default {
       this.showModal = false;
     },
     getData: function (id) {
-      var promise = axios
-        .get(`${this.tableDataApi}/${id}`)
-        .then((res) => {
-          this.dataEmployee = res.data;
-        }).catch(() => {
-          this.$toast(TOAST_TYPE.DANGER, "Không lấy được thông tin nhân viên!");
-          this.reloadTableData();
-        });
-      return promise;
+      return axios.get(`${this.tableDataApi}/${id}`);
     },
     getNewEmployeeCode: function () {
-      return axios
-        .get(`${this.tableDataApi}/NewEmployeeCode`)
-        .then((res) => {
-          this.dataEmployee = { EmployeeCode: res.data };
-        })
-        .catch(() => {
-          this.$toast(TOAST_TYPE.DANGER, "Không lấy được mã nhân viên mới!");
-        });
+      return axios.get(`${this.tableDataApi}/NewEmployeeCode`)
     },
     reloadTableData: function() {
       eventBus.$emit("reloadTableData", true);
