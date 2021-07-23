@@ -1,12 +1,19 @@
 <template>
   <div class="input-wrapper">
-    <input
+    <!-- <input
       type="date"
       ref="input"
       :value="value | formatDateYYYYMMDD"
       @input="changeInputValue($event.target.value)"
       :max="maxDate"
       class="text-align-center"
+    /> -->
+    <input
+      type="date"
+      ref="input"
+      :value="value | formatDateYYYYMMDD"
+      @input="changeInputValue($event.target.value)"
+      :max="maxDate"
     />
   </div>
 </template>
@@ -15,7 +22,7 @@
 import { CommonFunction } from "../../script/common/common";
 export default {
   props: {
-    value: String,
+    value: String, // giá trị v-model
     autofocus: {
       type: Boolean,
       default: false,
@@ -27,6 +34,7 @@ export default {
     }
   },
   created() {
+    // set giá trị tối đa = ngày hiện tại
     this.maxDate = this.getMaxDate();
   },
   mounted() {
@@ -35,6 +43,7 @@ export default {
     }
   },
   filters: {
+    // Định dạng yyyy-mm-dd
     formatDateYYYYMMDD: function (value) {
       return CommonFunction.formatDateYYYYMMDD(value);
     },
@@ -51,7 +60,7 @@ export default {
     /**
      * Lấy ra giá trị ngày hiện tại
      * @returns {string} date dạng yyyy-mm-dd
-     * @author pthieu (07-07-2021)
+     * @author pthieu (22-07-2021)
      */
     getMaxDate: function () {
       var date = new Date().toJSON();
@@ -59,7 +68,9 @@ export default {
       return yyyymmdd;
     },
     /**
-     * 
+     * Validate 
+     * @returns {Boolean} date dạng yyyy-mm-dd
+     * @author pthieu (22-07-2021)
      */
     validateInput() {
       return true;

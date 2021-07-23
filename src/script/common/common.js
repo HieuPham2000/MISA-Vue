@@ -26,13 +26,13 @@ export class CommonFunction {
     }
     let dateOrigin = new Date(date);
 
-    let d = dateOrigin.getDate();
-    d = d > 9 ? d : `0${d}`;
-    let m = dateOrigin.getMonth() + 1; // tháng bắt đầu từ 0
-    m = m > 9 ? m : `0${m}`;
-    let y = dateOrigin.getFullYear();
-    let dateString = `${d}/${m}/${y}`;
-    return dateString;
+    let day = dateOrigin.getDate();
+    day = day > 9 ? day : `0${day}`;
+    let month = dateOrigin.getMonth() + 1; // tháng bắt đầu từ 0
+    month = month > 9 ? month : `0${month}`;
+    let year = dateOrigin.getFullYear();
+
+    return `${day}/${month}/${year}`;
   }
 
   /** 
@@ -47,21 +47,23 @@ export class CommonFunction {
       return '';
     }
     let dateOrigin = new Date(date);
-    let d = dateOrigin.getDate();
-    d = d > 9 ? d : `0${d}`;
-    let m = dateOrigin.getMonth() + 1; // tháng bắt đầu từ 0
-    m = m > 9 ? m : `0${m}`;
-    let y = dateOrigin.getFullYear();
-    if(y < 10) {
-      y = `000${y}`;
-    } else if(y < 100) {
-      y = `00${y}`;
-    } else if(y < 1000) {
-      y = `0${y}`;
-    }
-    let dateString = `${y}-${m}-${d}`;
 
-    return dateString;
+    let day = dateOrigin.getDate();
+    day = day > 9 ? day : `0${day}`;
+
+    let month = dateOrigin.getMonth() + 1; // tháng bắt đầu từ 0
+    month = month > 9 ? month : `0${month}`;
+
+    let year = dateOrigin.getFullYear();
+    if(year < 10) {
+      year = `000${year}`;
+    } else if(year < 100) {
+      year = `00${year}`;
+    } else if(year < 1000) {
+      year = `0${year}`;
+    }
+
+    return `${year}-${month}-${day}`;
   }
 
   /**
