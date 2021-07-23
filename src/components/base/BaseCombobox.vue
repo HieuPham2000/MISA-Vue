@@ -236,6 +236,14 @@ export default {
     },
 
     /**
+     * Focus (test)
+     * @author pthieu (23-07-2021)
+     */
+    focusInput: function() {
+      this.$refs["m-combobox__input"].focusInput();
+    },
+
+    /**
      * Chọn item trong dropdown (click, press enter)
      * @param {String} text giá trị text
      * @param {*} value giá trị value (id)

@@ -338,6 +338,7 @@ export default {
       for (var name in this.$refs) {
         var formItem = this.$refs[name];
         if (formItem instanceof Vue && !formItem.validateInput()) {
+          formItem.focusInput();
           return;
         }
       }
@@ -376,7 +377,7 @@ export default {
         })
         .finally(() => {
           this.$emit("closeModal");
-          eventBus.$emit("reloadTableData");
+          this.$emit("reloadTableData");
         });
     },
 
@@ -401,7 +402,7 @@ export default {
         })
         .finally(() => {
           this.$emit("closeModal");
-          eventBus.$emit("reloadTableData");
+          this.$emit("reloadTableData");
         });
     },
   },

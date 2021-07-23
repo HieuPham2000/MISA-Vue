@@ -14,7 +14,7 @@
         'm-combobox__input': isComboboxInput,
       }"
       :title="errorMsg"
-      @focus="focusInput"
+      @focus="onFocusCbxInput"
       @keydown="pressKeyInInput($event)"
       @input="changeInputValue($event.target.value)"
       @blur="validateInput"
@@ -137,7 +137,7 @@ export default {
      * Sự kiện focus (với input nằm trong combobox)
      * @author pthieu (22-07-2021)
      */
-    focusInput: function () {
+    onFocusCbxInput: function () {
       if (this.isComboboxInput) {
         this.$emit("focus");
       }
@@ -292,6 +292,13 @@ export default {
       }
       return true;
     },
+    /**
+     * Focus (test)
+     * @author pthieu (23-07-2021)
+     */
+    focusInput: function() {
+      this.$refs.input.focus();
+    }
   },
 };
 </script>
