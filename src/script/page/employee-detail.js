@@ -20,14 +20,14 @@ export default {
         IdentityDate: null, // string (date -> json)
         IdentityPlace: null,
         JoinDate: null, // string (date -> json)
-        MartialStatus: 0, // number
-        EducationalBackground: 0, // number
+        MartialStatus: null, // number
+        EducationalBackground: null, // number
         QualificationId: null, // string
         DepartmentId: null, // string
         PositionId: null, // string
-        WorkStatus: 0, // number
+        WorkStatus: null, // number
         PersonalTaxCode: null, // string
-        Salary: 0, // number
+        Salary: null, // number
         PositionCode: null, // string
         PositionName: null, // string
         DepartmentCode: null, // string

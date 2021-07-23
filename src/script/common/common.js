@@ -1,3 +1,4 @@
+import {FIXED_DATA_WORK_STATUS} from '../../constant'
 export class CommonFunction {
 
   /**
@@ -65,21 +66,27 @@ export class CommonFunction {
 
   /**
    * Định dạng tiền lương theo dạng xxx.xxx.xxx
-   * @param {number} salary giá trị tiền lương
+   * @param {*} salary giá trị tiền lương
    * @returns {string} xâu định dang xxx.xxx.xxx
    * @author pthieu (06-07-2021)
    */
-  static formatMoney(salary) {
-    return salary ? salary.toLocaleString("it-IT") : "";
+  static formatMoney(value) {
+    if(!value) {
+      return "";
+    }
+    // Chú ý: Number(null) => 0
+    value = Number(value).toLocaleString("it-IT");
+    return value;
   }
 
-  static formatInputMoney(value) {
-    // console.log("before format: " + value);
-    if(value == "") {
-      return;
-    }
-    value = Number(value).toLocaleString("it-IT");
-    // console.log("after format: " + value);
+  /**
+   * Loại bỏ dấu phân tách trong giá trị tiền
+   * @param {*} value giá trị tiền có dấu phân tách
+   * @returns giá trị tiền đã loại bỏ dấu phân tách
+   * @author pthieu (19-07-2021)
+   */
+  static normalizeMoney(value) {
+    value = value.toString().replaceAll(",", "").replaceAll(".", "");
     return value;
   }
 
@@ -90,19 +97,11 @@ export class CommonFunction {
    * @author pthieu (06-07-2021)
    */
   static formatWorkStatus(code) {
-    const code1 = "Đã nghỉ việc";
-    const code2 = "Đang thử việc";
-    const code3 = "Đang làm việc";
-    switch (code) {
-      case 1:
-        return code1;
-      case 2:
-        return code2;
-      case 3:
-        return code3;
-      default:
-        return "";
+    var item = FIXED_DATA_WORK_STATUS.find(i => i.id === code);
+    if(item) {
+      return item.text;
     }
+    return "";
   }
 
   /**

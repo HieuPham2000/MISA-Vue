@@ -28,26 +28,26 @@
               <!-- row -->
               <div class="row">
                 <div class="form-item">
-                  <label for="EmployeeCode">Mã nhân viên (<span>*</span>)</label>
-                  <input
-                    type="text"
-                    fieldName="employeeCode"
+                  <label for="EmployeeCode"
+                    >Mã nhân viên (<span>*</span>)</label
+                  >
+                  <BaseTextInput
+                    ref="EmployeeCode"
                     v-model="employee.EmployeeCode"
                     placeholder="Nhập mã nhân viên"
                     maxlength="20"
-                    ref="employeeCode"
-                    required
+                    :isRequired="true"
+                    :autofocus="true"
                   />
                 </div>
                 <div class="form-item">
                   <label for="FullName">Họ và tên (<span>*</span>)</label>
-                  <input
-                    type="text"
-                    fieldName="fullName"
+                  <BaseTextInput
+                    ref="FullName"
                     v-model="employee.FullName"
                     placeholder="Nhập họ và tên"
                     maxlength="100"
-                    required
+                    :isRequired="true"
                   />
                 </div>
               </div>
@@ -57,24 +57,20 @@
               <div class="row">
                 <div class="form-item">
                   <label for="DateOfBirth">Ngày sinh</label>
-                  <input
-                    date
-                    type="date"
-                    fieldName="dateOfBirth"
-                    :value="employee.DateOfBirth | formatData('date')"
-                    @input="employee.DateOfBirth = $event.target.value"
-                    class="text-align-center"
+                  <BaseDateInput
+                    ref="DateOfBirth"
+                    v-model="employee.DateOfBirth"
                   />
                 </div>
                 <div class="form-item">
                   <label for="Gender">Giới tính</label>
-                   <BaseCombobox
+                  <BaseCombobox
+                    ref="Gender"
                     id="cbx-gender-form"
                     dataId="id"
                     dataName="text"
                     placeholder="Chọn/Nhập giới tính"
                     :fixedData="fixedDataGender"
-                    inputFieldName="Gender"
                     v-model="employee.Gender"
                   />
                 </div>
@@ -87,26 +83,20 @@
                   <label for="IdentityNumber"
                     >Số CMTND/ Căn cước (<span>*</span>)</label
                   >
-                  <input
-                    number
-                    type="text"
-                    fieldName="identityNumber"
+                  <BaseTextInput
+                    ref="IdentityNumber"
+                    type="number"
                     v-model="employee.IdentityNumber"
                     placeholder="Nhập số CMTND/ Căn cước"
                     maxlength="12"
-                    required
+                    :isRequired="true"
                   />
                 </div>
                 <div class="form-item">
                   <label for="IdentityDate">Ngày cấp</label>
-                  <input
-                    date
-                    type="date"
-                    fieldName="identityDate"
-                    :value="employee.IdentityDate | formatData('date')"
-                    @input="employee.IdentityDate = $event.target.value"
-                    formattype="yyyy-mm-dd"
-                    class="text-align-center"
+                  <BaseDateInput
+                    ref="IdentityDate"
+                    v-model="employee.IdentityDate"
                   />
                 </div>
               </div>
@@ -116,9 +106,8 @@
               <div class="row">
                 <div class="form-item">
                   <label for="IdentityPlace">Nơi cấp</label>
-                  <input
-                    type="text"
-                    fieldName="identityPlace"
+                  <BaseTextInput
+                    ref="IdentityPlace"
                     v-model="employee.IdentityPlace"
                     placeholder="Nhập nơi cấp"
                     maxlength="100"
@@ -131,29 +120,26 @@
               <div class="row">
                 <div class="form-item">
                   <label for="Email">Email (<span>*</span>)</label>
-                  <input
-                    email
-                    type="email"
-                    fieldName="email"
+                  <BaseTextInput
+                    ref="Email"
                     v-model="employee.Email"
                     placeholder="Nhập email"
                     maxlength="320"
-                    required
+                    :isRequired="true"
+                    :format="validate.EMAIL.TYPE"
                   />
                 </div>
                 <div class="form-item">
                   <label for="PhoneNumber"
                     >Số điện thoại (<span>*</span>)</label
                   >
-                  <input
-                    phone
-                    type="tel"
-                    fieldName="phoneNumber"
+                  <BaseTextInput
+                    ref="PhoneNumber"
                     v-model="employee.PhoneNumber"
-                    name="PhoneNumber"
                     placeholder="Nhập số điện thoại"
                     maxlength="30"
-                    required
+                    :isRequired="true"
+                    :format="validate.PHONE_NUMBER.TYPE"
                   />
                 </div>
               </div>
@@ -169,24 +155,24 @@
                 <div class="form-item">
                   <label for="PositionId">Vị trí</label>
                   <BaseCombobox
+                    ref="PositionId"
                     id="cbx-position-form"
                     dataId="PositionId"
                     dataName="PositionName"
                     api="http://cukcuk.manhnv.net/v1/Positions"
                     placeholder="Chọn/Nhập vị trí"
-                    inputFieldName="PositionId"
                     v-model="employee.PositionId"
                   />
                 </div>
                 <div class="form-item">
                   <label for="DepartmentId">Phòng ban</label>
                   <BaseCombobox
+                    ref="DepartmentId"
                     id="cbx-department-form"
                     dataId="DepartmentId"
                     dataName="DepartmentName"
                     api="http://cukcuk.manhnv.net/api/Department"
                     placeholder="Chọn/Nhập phòng ban"
-                    inputFieldName="DepartmentId"
                     v-model="employee.DepartmentId"
                   />
                 </div>
@@ -196,12 +182,10 @@
               <div class="row">
                 <div class="form-item">
                   <label for="PersonalTaxCode">Mã số thuế</label>
-                  <input
-                    number
-                    type="text"
-                    fieldName="personalTaxCode"
+                  <BaseTextInput
+                    ref="PersonalTaxCode"
+                    type="number"
                     v-model="employee.PersonalTaxCode"
-                    name="PersonalTaxCode"
                     placeholder="Nhập mã số thuế"
                     maxlength="13"
                   />
@@ -209,18 +193,12 @@
                 <div class="form-item">
                   <label for="Salary">Mức lương cơ bản</label>
                   <div class="money-input-container">
-                    <input
-                      number
-                      salary
-                      id="salary"
-                      type="text"
-                      fieldName="salary"
-                      :value="employee.Salary | formatData('money')"
-                      @input="employee.Salary = normalizeMoney($event.target.value)"
-                      name="Salary"
-                      maxlength="14"
-                      class="text-align-right"
+                    <BaseTextInput
+                      ref="Salary"
+                      type="money"
+                      v-model="employee.Salary"
                       placeholder="Nhập mức lương cơ bản"
+                      maxlength="14"
                     />
                   </div>
                 </div>
@@ -230,25 +208,18 @@
               <div class="row">
                 <div class="form-item">
                   <label for="JoinDate">Ngày gia nhập công ty</label>
-                  <input
-                    date
-                    type="date"
-                    fieldName="joinDate"
-                    :value="employee.JoinDate | formatData('date')"
-                    @input="employee.JoinDate = $event.target.value"
-                    name="JoinDate"
-                    class="text-align-center"
-                  />
+                  <BaseDateInput ref="JoinDate" v-model="employee.JoinDate" />
                 </div>
                 <div class="form-item">
                   <label for="WorkStatus">Tình trạng công việc</label>
                   <BaseCombobox
+                    ref="WorkStatus"
                     id="cbx-workstatus-form"
                     dataId="id"
                     dataName="text"
+                    :showAbove="true"
                     placeholder="Chọn/Nhập tình trạng công việc"
                     :fixedData="fixedDataWorkStatus"
-                    inputFieldName="WorkStatus"
                     v-model="employee.WorkStatus"
                   />
                 </div>
@@ -292,15 +263,22 @@
 </style>
 
 <script>
+import Vue from "vue";
 import axios from "axios";
-import { CommonFunction } from "../../../script/common/common";
-import BaseCombobox from '../../../components/base/BaseCombobox.vue';
-import eventBus from '../../../event-bus';
-import {EMPLOYEE_ACTION, TOAST_TYPE, POPUP_TYPE} from "../../../type"
 import mixin from "../../../script/page/employee-detail";
+import BaseCombobox from "../../../components/base/BaseCombobox.vue";
+import BaseTextInput from "../../../components/base/BaseTextInput.vue";
+import BaseDateInput from "../../../components/base/BaseDateInput.vue";
+import eventBus from "../../../event-bus";
+import {
+  EMPLOYEE_ACTION,
+  TOAST_TYPE,
+  VALIDATE,
+} from "../../../type";
+import { FIXED_DATA_GENDER, FIXED_DATA_WORK_STATUS, POP_UP_EMPLOYEE } from "../../../constant";
 
 export default {
-  components: { BaseCombobox },
+  components: { BaseCombobox, BaseTextInput, BaseDateInput },
   props: {
     dataEmployee: Object,
     status: String,
@@ -308,48 +286,23 @@ export default {
   mixins: [mixin],
   data() {
     return {
-      fixedDataGender: [
-        {id: 0, text: "Nữ"},
-        {id: 1, text: "Nam"},
-        {id: 2, text: "Không xác định"}
-      ],
-      fixedDataWorkStatus: [
-        {id: 1, text: "Đã nghỉ việc"},
-        {id: 2, text: "Đang thử việc"},
-        {id: 3, text: "Đang làm việc"}
-      ],
-      dataPopUpCloseForm: {
-        type: POPUP_TYPE.WARNING,
-        title: "Đóng biểu mẫu",
-        content: 'Bạn có chắc muốn "Đóng biểu mẫu" hay không?',
-        btnCancel: "Tiếp tục nhập",
-        btnDo: "Đóng",
-        actionDo: EMPLOYEE_ACTION.CLOSE_FORM
-      },
-      dataPopUpAddEmployee: {
-        type: POPUP_TYPE.INFO,
-        title: "Thêm nhân viên mới",
-        content: 'Bạn có chắc muốn "Thêm nhân viên mới" hay không?',
-        btnCancel: "Hủy",
-        btnDo: "Thêm",
-        actionDo: EMPLOYEE_ACTION.ADD
-      },
-      dataPopUpEditEmployee: {
-        type: POPUP_TYPE.INFO,
-        title: "Cập nhật thông tin nhân viên",
-        content: 'Bạn có chắc muốn "Cập nhật thông tin nhân viên" hay không?',
-        btnCancel: "Hủy",
-        btnDo: "Cập nhật",
-        actionDo: EMPLOYEE_ACTION.EDIT
-      },
+      fixedDataGender: FIXED_DATA_GENDER,
+      fixedDataWorkStatus: FIXED_DATA_WORK_STATUS,
+      validate: VALIDATE,
+      dataPopUpCloseForm: {...POP_UP_EMPLOYEE.CLOSE_FORM},
+      dataPopUpAddEmployee: {...POP_UP_EMPLOYEE.ADD},
+      dataPopUpEditEmployee: {...POP_UP_EMPLOYEE.EDIT},
     };
   },
   created() {
-    for(var fieldName in this.employee) {
+    for (var fieldName in this.employee) {
       var value = this.dataEmployee[fieldName];
-      if(value != undefined && value != null) {
+      if (value != undefined && value != null) {
         this.employee[fieldName] = value;
       }
+      // else {
+      //   this.employee[fieldName] = null;
+      // }
     }
 
     eventBus.$on(EMPLOYEE_ACTION.ADD, this.postData);
@@ -361,47 +314,29 @@ export default {
     eventBus.$off(EMPLOYEE_ACTION.EDIT, this.putData);
     eventBus.$off(EMPLOYEE_ACTION.CLOSE_FORM, this.closeForm);
   },
-  mounted() {
-    this.$refs.employeeCode.focus();
-  },
-  filters: {
-    formatData: function (value, filterType) {
-      switch (filterType) {
-        case "date":
-          return CommonFunction.formatDateYYYYMMDD(value);
-        case "money":
-          return CommonFunction.formatInputMoney(value);
-        default:
-          return value;
-      }
-    },
-  },
   methods: {
     clickBtnClose: function () {
       eventBus.$emit("openPopUp", this.dataPopUpCloseForm);
     },
-    closeForm: function() {
+    closeForm: function () {
       this.$emit("closeModal");
     },
 
     clickBtnSubmit: function () {
-      switch(this.status) {
-        case EMPLOYEE_ACTION.ADD: 
+      for (var name in this.$refs) {
+        var formItem = this.$refs[name];
+        if (formItem instanceof Vue && !formItem.validateInput()) {
+          return;
+        }
+      }
+      switch (this.status) {
+        case EMPLOYEE_ACTION.ADD:
           eventBus.$emit("openPopUp", this.dataPopUpAddEmployee);
           break;
         case EMPLOYEE_ACTION.EDIT:
-          eventBus.$emit("openPopUp", this.dataPopUpEditEmployee); 
+          eventBus.$emit("openPopUp", this.dataPopUpEditEmployee);
           break;
       }
-    },
-
-    normalizeMoney: function(value) {
-      // console.log("before normalize: " + value)
-      value = value.toString().replaceAll(",", "").replaceAll(".", "");
-      // value.replaceAll(",", "");
-      // value.replaceAll(".", "");
-      // console.log("after normalize: " + value)
-      return value;
     },
     postData: function () {
       axios({
@@ -410,19 +345,20 @@ export default {
         data: this.employee,
         contentType: "application/json",
         dataType: "json",
-      }).then(() => {
-        this.$toast(TOAST_TYPE.SUCCESS, "Thêm nhân viên thành công!");
-      }).catch(() => {
-        this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, thêm mới thất bại!");
-      }).finally(() => {
-        this.$emit("closeModal");
-        eventBus.$emit("reloadTableData");
-      });
+      })
+        .then(() => {
+          this.$toast(TOAST_TYPE.SUCCESS, "Thêm nhân viên thành công!");
+        })
+        .catch(() => {
+          this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, thêm mới thất bại!");
+        })
+        .finally(() => {
+          this.$emit("closeModal");
+          eventBus.$emit("reloadTableData");
+        });
     },
 
     putData: function () {
-      console.log('hello put');
-      
       this.employee.EmployeeId = this.dataEmployee.EmployeeId;
       axios({
         method: "PUT",
@@ -430,17 +366,18 @@ export default {
         data: this.employee,
         contentType: "application/json",
         dataType: "json",
-      }).then(() => {
-        this.$toast(TOAST_TYPE.SUCCESS, "Cập nhật thông tin thành công!");
-      }).catch(() => {
-        this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, cập nhật thất bại!");
-      }).finally(() => {
-        this.$emit("closeModal");
-        eventBus.$emit("reloadTableData");
-      });
+      })
+        .then(() => {
+          this.$toast(TOAST_TYPE.SUCCESS, "Cập nhật thông tin thành công!");
+        })
+        .catch(() => {
+          this.$toast(TOAST_TYPE.DANGER, "Có lỗi xảy ra, cập nhật thất bại!");
+        })
+        .finally(() => {
+          this.$emit("closeModal");
+          eventBus.$emit("reloadTableData");
+        });
     },
-
-    
   },
 };
 </script>

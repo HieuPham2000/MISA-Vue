@@ -71,7 +71,7 @@ input[type=text], input[type=email] {
   padding: 2px;
   background-color: #e9ebee;
   cursor: pointer;
-  display: none;
+  /* display: none; */
 }  
 
 .btn-clear-text > img{
