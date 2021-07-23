@@ -31,7 +31,8 @@ table {
   } */
 
   tbody tr:hover {
-    background-color: #e9ebee;
+    /* background-color: #e9ebee; */
+    background-color: #e5e5e5;
   }
 
   tbody tr.selected {
@@ -50,7 +51,7 @@ thead th {
 }
 
 .grid::-webkit-scrollbar-track {
-  margin-top: 49px;
+  margin-top: 48px;
   background: #BBBBBB; 
 }
  

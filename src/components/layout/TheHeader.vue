@@ -34,11 +34,15 @@ export default {
   components: { BaseSelectBox },
   data() {
     return {
-      restaurantSelectItems: RESTAURANT_SELECT_ITEMS,
+      restaurantSelectItems: RESTAURANT_SELECT_ITEMS, // mảng các nhà hàng
       restaurantId: 1
     }
   },
   methods: {
+    /**
+     * Mở rông/thu hẹp menu
+     * @author pthieu (16-07-2021)
+     */
     toggleMenu: function(){
       this.$emit("toggleMenu");
     },

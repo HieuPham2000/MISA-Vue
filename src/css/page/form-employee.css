@@ -5,16 +5,16 @@
   right: 0;
   bottom: 0;
   overflow: auto;
-  padding: 24px 0px;
+  padding: 10px 0px;
   background-color: rgba(0, 0, 0, 0.3);
 }
 .form-modal {
   background-color: #ffffff;
   margin: auto;
-  width: min(50%, 600px);
+  border-radius: 4px;
+  width: min(70%, 800px);
   min-width: min(50%, 600px);
   max-width: max(50%, 600px);
-  border-radius: 4px;
   /* resize: horizontal;
   overflow-x: auto;
   max-height: fit-content;
@@ -30,7 +30,7 @@
   overflow:initial; */
 }
 
-.form-icon-close {
+.form-modal .form-icon-close {
   position: absolute;
   top: 0;
   right: 0;
@@ -41,14 +41,14 @@
   border-bottom-left-radius: 4px;
   user-select: none;
 }
-  .form-icon-close > img {
+.form-modal .form-icon-close > img {
     opacity: 0.6;
   }
-  .form-icon-close:hover {
+  .form-modal .form-icon-close:hover {
     background-color: #dadce0;
   }
 
-.form-title {
+  .form-modal .form-title {
   /* background-color: green; */
   display: inline-block;
   margin: 24px 0px 24px 24px;
@@ -59,7 +59,7 @@
   font-weight: bold;
 }
 
-.form-footer {
+.form-modal .form-footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -73,19 +73,19 @@
 
 
 
-.form-content {
+.form-modal .form-content {
   /* background-color: palevioletred; */
   padding: 0 24px;
   display: flex;
   gap: 16px;
 }
 
-.form-content-left {
+.form-modal .form-content-left {
   /* background-color: azure; */
   flex: 20%;
 }
 
-.form-content-left .avatar {
+.form-modal .form-content-left .avatar {
   box-sizing: border-box;
   width: 100%;
   padding-top: 100%;
@@ -96,7 +96,7 @@
   background-position: center;
 }
 
-.form-content-left p.image-format {
+.form-modal .form-content-left p.image-format {
   font-size: 13px;
   text-align: center;
   padding: 0;
@@ -104,11 +104,11 @@
 }
 
 
-.form-content-right {
+.form-modal .form-content-right {
   flex: 75%;
 }
 
-.form-content-right .content-part {
+.form-modal .form-content-right .content-part {
   padding-bottom: 24px;
 }
 

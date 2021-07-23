@@ -1,6 +1,8 @@
 <template>
   <div class="grid grid-content">
     <table id="tablelist-employee" cellspacing="0">
+
+      <!-- Hàng tiêu đề các cột trong bảng -->
       <thead>
         <tr>
           <th
@@ -12,6 +14,8 @@
           </th>
         </tr>
       </thead>
+
+      <!-- Nội dung bảng -->
       <transition-group tag="tbody" name="table-rows">
         <tr
           v-for="(row, index) in tableData"
@@ -20,13 +24,16 @@
           @dblclick="openDetailForm(row[entityId])"
           :class="{selected: selectedRows.indexOf(row[entityId]) > -1}"
         >
+          <!-- ô 1: chứa checkbox -->
           <td :style="tableColumns[0].style">
             <i v-if="selectedRows.indexOf(row[entityId]) > -1" class="fas fa-check-square"></i>
             <i v-else class="far fa-square"></i>
           </td>
+          <!-- ô 2: chứa số thứ tự -->
           <td :style="tableColumns[1].style">
             {{ index + 1 }}
           </td>
+          <!-- Các ô khác -->
           <td
             v-for="(column, index) in tableColumns.slice(2)"
             :key="index"
@@ -78,15 +85,16 @@ export default {
   },
 
   created() {
-    let me = this;
     // Tiến hành load dữ liệu trong bảng
     this.loadTableData();
 
     // Lắng nghe các sự kiện truyền qua eventBus
     // Reload dữ liệu (nhấn btn refresh, auto reload sau post, put...)
-    eventBus.$on("reloadTableData", function(toast) {
-      me.loadTableData(toast);
-    })
+    
+    // eventBus.$on("reloadTableData", function(toast) {
+    //   me.loadTableData(toast);
+    // })
+    eventBus.$on("reloadTableData", this.loadTableData)
     // Lắng nghe sự kiện nhấn btn Xóa 
     eventBus.$on("clickBtnDelete", this.clickBtnDelete );
     // Lắng nghe sự kiện xóa nhân viên
@@ -94,15 +102,9 @@ export default {
   },
 
   destroyed() {
-    let me = this;
     // Gỡ bỏ lắng nghe sự kiện
-    eventBus.$off("reloadTableData", function(toast) {
-      me.loadTableData(toast);
-    });
-    eventBus.$off("deleteTableData", function() {
-      me.deleteEntities();
-    });
-    eventBus.$off("clickBtnDelete", me.clickBtnDelete );
+    eventBus.$off("reloadTableData", this.loadTableData);
+    eventBus.$off("clickBtnDelete", this.clickBtnDelete);
     eventBus.$off(EMPLOYEE_ACTION.DELETE, this.deleteEntities);
   },
 
