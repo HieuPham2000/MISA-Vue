@@ -1,6 +1,8 @@
 <template>
   <div class="grid grid-content">
     <table id="tablelist-employee" cellspacing="0">
+
+      <!-- Hàng tiêu đề các cột trong bảng -->
       <thead>
         <tr>
           <th
@@ -12,6 +14,8 @@
           </th>
         </tr>
       </thead>
+
+      <!-- Nội dung bảng -->
       <transition-group tag="tbody" name="table-rows">
         <tr
           v-for="(row, index) in tableData"
@@ -20,13 +24,16 @@
           @dblclick="openDetailForm(row[entityId])"
           :class="{selected: selectedRows.indexOf(row[entityId]) > -1}"
         >
+          <!-- ô 1: chứa checkbox -->
           <td :style="tableColumns[0].style">
             <i v-if="selectedRows.indexOf(row[entityId]) > -1" class="fas fa-check-square"></i>
             <i v-else class="far fa-square"></i>
           </td>
+          <!-- ô 2: chứa số thứ tự -->
           <td :style="tableColumns[1].style">
             {{ index + 1 }}
           </td>
+          <!-- Các ô khác -->
           <td
             v-for="(column, index) in tableColumns.slice(2)"
             :key="index"

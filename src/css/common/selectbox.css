@@ -5,6 +5,8 @@
   position: relative;
   background-color: #ffffff;
   width: fit-content;
+  display: flex;
+  align-items: center;
   user-select: none;
   cursor: context-menu;
 }

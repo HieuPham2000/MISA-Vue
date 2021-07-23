@@ -1,5 +1,7 @@
 <template>
   <div class="input-wrapper">
+    <!-- input -->
+    <!-- input type text -->
     <input
       v-if="type === 'text'"
       type="text"
@@ -17,6 +19,7 @@
       @input="changeInputValue($event.target.value)"
       @blur="validateInput"
     />
+    <!-- input type number -->
     <input
       v-else-if="type === 'number'"
       type="text"
@@ -30,6 +33,7 @@
       @input="changeInputValue($event.target.value)"
       @blur="validateInput"
     />
+    <!-- input type money -->
     <input
       v-else-if="type === 'money'"
       type="text"
@@ -43,9 +47,13 @@
       @input="changeInputValue(normalizeMoney($event.target.value))"
       @blur="validateInput"
     />
+
+    <!-- btn clear text -->
     <div class="btn-clear-text" @click="clearText" v-show="isShowBtnClearText">
       <img src="@/assets/icon/x.svg" />
     </div>
+
+    <!-- notice báo lỗi validate -->
     <transition name="fade">
       <div
         class="notice"

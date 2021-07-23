@@ -265,25 +265,21 @@
 <script>
 import Vue from "vue";
 import axios from "axios";
+import eventBus from "../../../event-bus";
 import mixin from "../../../script/page/employee-detail";
+import { EMPLOYEE_ACTION, TOAST_TYPE, VALIDATE } from "../../../type";
+import { FIXED_DATA_GENDER, FIXED_DATA_WORK_STATUS, POP_UP_EMPLOYEE } from "../../../constant";
 import BaseCombobox from "../../../components/base/BaseCombobox.vue";
 import BaseTextInput from "../../../components/base/BaseTextInput.vue";
 import BaseDateInput from "../../../components/base/BaseDateInput.vue";
-import eventBus from "../../../event-bus";
-import {
-  EMPLOYEE_ACTION,
-  TOAST_TYPE,
-  VALIDATE,
-} from "../../../type";
-import { FIXED_DATA_GENDER, FIXED_DATA_WORK_STATUS, POP_UP_EMPLOYEE } from "../../../constant";
 
 export default {
   components: { BaseCombobox, BaseTextInput, BaseDateInput },
   props: {
-    dataEmployee: Object,
-    status: String,
+    dataEmployee: Object, // dữ liệu employee
+    status: String, // trạng thái: ADD, EDIT
   },
-  mixins: [mixin],
+  mixins: [mixin], // Object employee
   data() {
     return {
       fixedDataGender: FIXED_DATA_GENDER,
@@ -295,6 +291,7 @@ export default {
     };
   },
   created() {
+    // set giá trị cho object employee (data)
     for (var fieldName in this.employee) {
       var value = this.dataEmployee[fieldName];
       if (value != undefined && value != null) {
@@ -305,6 +302,7 @@ export default {
       // }
     }
 
+    // Lắng nghe sự kiện qua eventBus
     eventBus.$on(EMPLOYEE_ACTION.ADD, this.postData);
     eventBus.$on(EMPLOYEE_ACTION.EDIT, this.putData);
     eventBus.$on(EMPLOYEE_ACTION.CLOSE_FORM, this.closeForm);
@@ -315,29 +313,53 @@ export default {
     eventBus.$off(EMPLOYEE_ACTION.CLOSE_FORM, this.closeForm);
   },
   methods: {
+    /**
+     * Click nút đóng form
+     * @author pthieu (21-07-2021)
+     */
     clickBtnClose: function () {
       eventBus.$emit("openPopUp", this.dataPopUpCloseForm);
     },
+
+    /**
+     * Đóng form
+     * @author pthieu (16-07-2021)
+     */
     closeForm: function () {
       this.$emit("closeModal");
     },
 
+    /**
+     * Click nút submit form
+     * @author pthieu (21-07-2021)
+     */
     clickBtnSubmit: function () {
+      // validate
       for (var name in this.$refs) {
         var formItem = this.$refs[name];
         if (formItem instanceof Vue && !formItem.validateInput()) {
           return;
         }
       }
+
+      // dựa trên là cờ status => action
       switch (this.status) {
+        // thêm nhân viên mới
         case EMPLOYEE_ACTION.ADD:
           eventBus.$emit("openPopUp", this.dataPopUpAddEmployee);
           break;
+
+        // chỉnh sửa thông tin nhân viên
         case EMPLOYEE_ACTION.EDIT:
           eventBus.$emit("openPopUp", this.dataPopUpEditEmployee);
           break;
       }
     },
+
+    /**
+     * Thêm mới dữ liệu
+     * @author pthieu (21-07-2021)
+     */
     postData: function () {
       axios({
         method: "POST",
@@ -358,6 +380,10 @@ export default {
         });
     },
 
+    /**
+     * Chỉnh sửa dữ liệu
+     * @author pthieu (21-07-2021)
+     */
     putData: function () {
       this.employee.EmployeeId = this.dataEmployee.EmployeeId;
       axios({

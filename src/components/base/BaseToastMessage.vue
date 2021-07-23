@@ -1,5 +1,4 @@
 <template>
-<transition name="slide">
   <div :class="['toast-msg', classType]" v-show="isShow">
       <div class="toast-msg-icon">
         <i v-if="type == TOAST_TYPE.DANGER" class="fas fa-exclamation-triangle"></i>
@@ -12,22 +11,10 @@
         <i class="fas fa-times"></i>
       </div>
   </div>
-</transition>
 </template>
 
 <style>
   @import '../../css/common/toast-messenger.css';
-  /* .slide-enter-active, .slide-leave-active {
-transition: margin-bottom .8s ease-out;
-}
-
-.slide-enter, .slide-leave-to {
-margin-bottom: -200px;
-}
-
-.slide-enter-to, .slide-leave {
-margin-bottom: 0px;
-} */
 </style>
 
 <script>

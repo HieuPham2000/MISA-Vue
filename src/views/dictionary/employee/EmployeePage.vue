@@ -21,8 +21,9 @@
     </div>
     <!-- end page header -->
 
-    <!-- toolbar: search, filter -->
+    <!-- toolbar -->
     <div class="toolbar">
+      <!-- toolbar left: search, filter -->
       <div class="toolbar-left">
         <input
           class="icon-search input-search"
@@ -47,8 +48,9 @@
           placeholder="Chọn/Nhập vị trí"
           :extraItems="[{PositionName: 'Tất cả vị trí', PositionId: null}]"
         />
-
       </div>
+
+       <!-- toolbar right: button delete, refresh -->
       <div class="toolbar-right">
         <button type="button" class="m-second-button" id="btn-delete" @click="clickBtnDelete">
           <i class="far fa-trash-alt"></i>
