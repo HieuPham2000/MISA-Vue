@@ -88,7 +88,7 @@
                     type="number"
                     v-model="employee.IdentityNumber"
                     placeholder="Nhập số CMTND/ Căn cước"
-                    maxlength="12"
+                    maxlength="25"
                     :isRequired="true"
                   />
                 </div>
@@ -110,7 +110,7 @@
                     ref="IdentityPlace"
                     v-model="employee.IdentityPlace"
                     placeholder="Nhập nơi cấp"
-                    maxlength="100"
+                    maxlength="255"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@
                     ref="Email"
                     v-model="employee.Email"
                     placeholder="Nhập email"
-                    maxlength="320"
+                    maxlength="100"
                     :isRequired="true"
                     :format="validate.EMAIL.TYPE"
                   />
@@ -137,7 +137,7 @@
                     ref="PhoneNumber"
                     v-model="employee.PhoneNumber"
                     placeholder="Nhập số điện thoại"
-                    maxlength="30"
+                    maxlength="50"
                     :isRequired="true"
                     :format="validate.PHONE_NUMBER.TYPE"
                   />
@@ -162,6 +162,7 @@
                     api="http://cukcuk.manhnv.net/v1/Positions"
                     placeholder="Chọn/Nhập vị trí"
                     v-model="employee.PositionId"
+                    maxlength="100"
                   />
                 </div>
                 <div class="form-item">
@@ -174,6 +175,7 @@
                     api="http://cukcuk.manhnv.net/api/Department"
                     placeholder="Chọn/Nhập phòng ban"
                     v-model="employee.DepartmentId"
+                    maxlength="255"
                   />
                 </div>
               </div>
@@ -187,7 +189,7 @@
                     type="number"
                     v-model="employee.PersonalTaxCode"
                     placeholder="Nhập mã số thuế"
-                    maxlength="13"
+                    maxlength="25"
                   />
                 </div>
                 <div class="form-item">
@@ -221,6 +223,7 @@
                     placeholder="Chọn/Nhập tình trạng công việc"
                     :fixedData="fixedDataWorkStatus"
                     v-model="employee.WorkStatus"
+                    maxlength="255"
                   />
                 </div>
               </div>

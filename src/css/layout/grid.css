@@ -1,4 +1,5 @@
 .grid {
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -43,6 +44,8 @@ thead th {
   position: sticky;
   top: 0;
   background-color: #ffffff;
+  /* test overlap loader */
+  z-index: 2;
 }
 
 .grid::-webkit-scrollbar {

@@ -84,7 +84,7 @@ input.border-red {
 
 /* Thông báo khi validate false */
 .notice {
-  z-index: 99;
+  z-index: 10;
   display: inline-block;
   position: absolute;
   left: 50%;
