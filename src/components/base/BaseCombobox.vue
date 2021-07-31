@@ -18,7 +18,7 @@
       :placeholder="placeholder"
       :isComboboxInput="true"
       :comboboxInputItems="comboboxInputItems"
-      @focus="openDropdown"
+      @focus="openDropdown(true)"
       @input="openDropdown"
       @keydown="pressKeyInCombobox($event)"
       @setError="isError = $event"
@@ -45,7 +45,7 @@
         - Trạng thái selected: khi click/chọn bằng cách nhấn enter khi item đang active
        -->
       <li
-        v-for="(item, index) in showItems"
+        v-for="(item, index) in dropdownItems"
         :class="[
           'm-combobox__dropdown__item',
           { active: currentItem == index, selected: item[dataName] == text },
@@ -96,10 +96,11 @@ export default {
     return {
       comboboxItems: [], // dữ liệu dropdown items
       isOpen: false, // cờ trạng thái đóng/mở dropdown (set class "open" cho "m-combobox")
-      showItems: [], // các dropdown items hiện (khớp với input) 
+      showItems: [], // các items khớp với input
       text: null, // giá trị dữ liệu input
       currentItem: 0, // chỉ số của dropdown item đang active hiện tại
-      isError: false // cờ báo lỗi validate
+      isError: false, // cờ báo lỗi validate
+      dropdownItems: [] // các item xuất hiện trong dropdown
     };
   },
   created() {
@@ -116,6 +117,8 @@ export default {
   computed: {
     // Mảng chứa các dropdown item text, dùng để truyền vào input => validate
     comboboxInputItems: function() {
+      // console.log("comboboxItems: ");
+      // console.log(this.comboboxItems);
       return this.comboboxItems.map(i => i[this.dataName]);
     }
   },
@@ -133,6 +136,9 @@ export default {
         );
         return textNonAccent == itemTextSliceNonAccent;
       });
+
+      // test
+      this.dropdownItems = this.showItems;
 
       // this.changeValue(this.getValueByText());
       // Nếu text rống => value gán bằng null
@@ -156,7 +162,7 @@ export default {
      */
     handleClickOutside: function(event) {
       if (!this.$el.contains(event.target)) {
-        this.isOpen = false;
+        this.closeDropdown();
       }
     },
     
@@ -196,7 +202,7 @@ export default {
       if (this.isOpen) {
         this.closeDropdown();
       } else {
-        this.openDropdown();
+        this.openDropdown(true);
       }
       // this.isOpen = ! this.isOpen;
     },
@@ -211,9 +217,16 @@ export default {
 
     /**
      * Mở dropdown
+     * @param {boolean} showAll cờ chỉ định hiển thị tất cả items, 
+     * hay chỉ hiển thị các items khớp với input
      * @author pthieu (20-07-2021)
      */
-    openDropdown: function () {
+    openDropdown: function(showAll = false) {
+      if(showAll) {
+        this.dropdownItems = this.comboboxItems;
+      } else {
+        this.dropdownItems = this.showItems;
+      }
       this.currentItem = 0;
       this.isOpen = true;
     },
@@ -296,21 +309,21 @@ export default {
         !this.isOpen &&
         ($event.key == "Enter" || ($event.altKey && $event.keyCode == 40))
       ) {
-        this.openDropdown();
+        this.openDropdown(true);
       } else if ($event.altKey && $event.keyCode == 38) { // Alt + Arrow Up để đóng dropdown
         this.closeDropdown();
       } else if ($event.keyCode == 40) { // Arrow Down để di chuyển xuống item bên dưới
         this.currentItem++;
-        if (this.currentItem >= this.showItems.length) {
+        if (this.currentItem >= this.dropdownItems.length) {
           this.currentItem = 0;
         }
       } else if ($event.keyCode == 38) { // Arrow Up để di chuyển lên item bên trên
         this.currentItem--;
         if (this.currentItem < 0) {
-          this.currentItem = this.showItems.length - 1;
+          this.currentItem = this.dropdownItems.length - 1;
         }
       } else if ($event.key == "Enter") { // Enter để chọn item hiện tại (đang active)
-        var item = this.showItems[this.currentItem];
+        var item = this.dropdownItems[this.currentItem];
         this.selectDropdownItem(item[this.dataName], item[this.dataId]);
       }
     },
