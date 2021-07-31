@@ -76,7 +76,7 @@
     <!-- end table list -->
 
     <!-- pagination -->
-    <ThePagination />
+    <ThePagination :currentPage="currentPage" :totalPages="totalPages" @changePage="onChangePage"/>
     <!-- end pagination -->
   </div>
   </div>
@@ -106,11 +106,9 @@ export default {
   },
   methods: {
     openFormAdd: function() {
-      // let me = this;
+
       this.status = EMPLOYEE_ACTION.ADD;
-      // this.getNewEmployeeCode().finally(() => {
-      //   me.openModal();
-      // })
+
       this.getNewEmployeeCode().then((res) => {
           this.dataEmployee = { EmployeeCode: res.data };
         })
@@ -122,17 +120,18 @@ export default {
         });
     },
     openFormEdit: function(id) {
-      // let me = this;
       this.status = EMPLOYEE_ACTION.EDIT;
-      // this.getData(id).then(() => {
-      //   me.openModal();
-      // })
       this.getData(id).then((res) => {
           this.dataEmployee = res.data;
-          this.openModal();
-        }).catch(() => {
-          this.$toast(TOAST_TYPE.DANGER, "Không lấy được thông tin nhân viên!");
-          this.reloadTableData();
+          if(this.dataEmployee) {
+            this.openModal();
+          } else {
+            this.$toast(TOAST_TYPE.DANGER, "Không lấy được thông tin nhân viên!");
+            this.reloadTableData();
+          }
+          
+        }).catch((error) => {
+          console.log(error);
         });
     },
     openModal: function() {
@@ -152,6 +151,15 @@ export default {
     },
     clickBtnDelete: function() {
       eventBus.$emit("clickBtnDelete");
+    },
+    /**
+     * Thay đổi trang
+     * @param {Number} page trang chuyển đến
+     * 
+     * Author: pthieu (31/07/2021)
+     */
+    onChangePage(page) {
+      this.currentPage = page;
     }
   },
   data() {
@@ -159,7 +167,9 @@ export default {
       showModal: false,
       entityId: "EmployeeId",
       dataEmployee: {},
-      status: EMPLOYEE_ACTION.ADD
+      status: EMPLOYEE_ACTION.ADD,
+      currentPage: 1,
+      totalPages: 10,
     };
   },
 };
