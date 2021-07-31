@@ -1,4 +1,5 @@
 .toolbar {
+  max-width: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -10,20 +11,26 @@
 }
 
 .toolbar-left, .toolbar-right {
+  max-width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
+  /* flex-shrink: 1 !important; */
 }
 
-/* .toolbar-right button#btn-delete {
-  border-color: #F65454;
-  color: #F65454;
-  transition: 0.2s ease-out;
+.input-search {
+  flex-shrink: 0;
+  width: 300px;
+  padding-left: 40px; 
 }
 
-.toolbar-right button#btn-delete:hover {
-  background-color: #F65454;
-  color: #ffffff;
-} */
+input.input-search + i {
+  position: absolute;
+  color: black;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  font-size: 16px;
+}
 

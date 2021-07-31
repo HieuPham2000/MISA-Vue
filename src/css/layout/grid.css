@@ -9,13 +9,13 @@
   user-select: none;
 }
 
-table {
+.grid table {
   width: 100%;
   table-layout: fixed;  
   cursor: context-menu;
 }
 
-  th, td {
+.grid th, .grid td {
     box-sizing: border-box;
     text-align: left;
     height: 48px;
@@ -31,16 +31,16 @@ table {
     background-color: #f4f4f4;
   } */
 
-  tbody tr:hover {
+  .grid tbody tr:hover {
     /* background-color: #e9ebee; */
     background-color: #e5e5e5;
   }
 
-  tbody tr.selected {
+  .grid tbody tr.selected {
     background-color: #EBF9F4;
   }
 
-thead th {
+  .grid thead th {
   position: sticky;
   top: 0;
   background-color: #ffffff;
@@ -70,20 +70,20 @@ thead th {
 /* tr td:nth-child(1), tr th:nth-child(1) {
   width: 150px;
 }*/
-tr td:nth-child(1), tr th:nth-child(1) {
+.grid tr td:nth-child(1), .grid tr th:nth-child(1) {
   padding-left: 16px;
   text-align: right;
 }
 
-tr td:nth-child(1) > i {
+.grid tr td:nth-child(1) > i {
   line-height: 52px;
   font-size: 24px;
 }
-td i.fa-square {
+.grid td i.fa-square {
   color: #bbbbbb;
 }
 
-td i.fa-check-square {
+.grid td i.fa-check-square {
   color: #019160;
 }
 
