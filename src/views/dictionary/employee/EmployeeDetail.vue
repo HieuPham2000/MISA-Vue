@@ -5,7 +5,6 @@
       <form id="form-employee" method="POST" action="#" autocomplete="off">
         <!-- button x -->
         <div class="form-icon-close" @click="clickBtnClose()" tabindex="0">
-          <img src="../../../assets/icon/x.svg" />
         </div>
         <!-- end button x -->
 
@@ -57,7 +56,7 @@
               <div class="row">
                 <div class="form-item">
                   <label for="DateOfBirth">Ngày sinh</label>
-                  <BaseDateInput
+                  <BaseDatePickerInput
                     ref="DateOfBirth"
                     v-model="employee.DateOfBirth"
                   />
@@ -94,7 +93,7 @@
                 </div>
                 <div class="form-item">
                   <label for="IdentityDate">Ngày cấp</label>
-                  <BaseDateInput
+                  <BaseDatePickerInput
                     ref="IdentityDate"
                     v-model="employee.IdentityDate"
                   />
@@ -113,6 +112,7 @@
                     maxlength="255"
                   />
                 </div>
+                <div class="form-item"></div>
               </div>
               <!-- end row -->
 
@@ -210,7 +210,7 @@
               <div class="row">
                 <div class="form-item">
                   <label for="JoinDate">Ngày gia nhập công ty</label>
-                  <BaseDateInput ref="JoinDate" v-model="employee.JoinDate" />
+                  <BaseDatePickerInput ref="JoinDate" v-model="employee.JoinDate" />
                 </div>
                 <div class="form-item">
                   <label for="WorkStatus">Tình trạng công việc</label>
@@ -271,13 +271,17 @@ import axios from "axios";
 import eventBus from "../../../event-bus";
 import mixin from "../../../script/page/employee-detail";
 import { EMPLOYEE_ACTION, TOAST_TYPE, VALIDATE } from "../../../type";
-import { FIXED_DATA_GENDER, FIXED_DATA_WORK_STATUS, POP_UP_EMPLOYEE } from "../../../constant";
+import {
+  FIXED_DATA_GENDER,
+  FIXED_DATA_WORK_STATUS,
+  POP_UP_EMPLOYEE,
+} from "../../../constant";
 import BaseCombobox from "../../../components/base/BaseCombobox.vue";
 import BaseTextInput from "../../../components/base/BaseTextInput.vue";
-import BaseDateInput from "../../../components/base/BaseDateInput.vue";
+import BaseDatePickerInput from "../../../components/base/BaseDatePickerInput.vue";
 
 export default {
-  components: { BaseCombobox, BaseTextInput, BaseDateInput },
+  components: { BaseCombobox, BaseTextInput, BaseDatePickerInput },
   props: {
     dataEmployee: Object, // dữ liệu employee
     status: String, // trạng thái: ADD, EDIT
@@ -288,9 +292,9 @@ export default {
       fixedDataGender: FIXED_DATA_GENDER,
       fixedDataWorkStatus: FIXED_DATA_WORK_STATUS,
       validate: VALIDATE,
-      dataPopUpCloseForm: {...POP_UP_EMPLOYEE.CLOSE_FORM},
-      dataPopUpAddEmployee: {...POP_UP_EMPLOYEE.ADD},
-      dataPopUpEditEmployee: {...POP_UP_EMPLOYEE.EDIT},
+      dataPopUpCloseForm: { ...POP_UP_EMPLOYEE.CLOSE_FORM },
+      dataPopUpAddEmployee: { ...POP_UP_EMPLOYEE.ADD },
+      dataPopUpEditEmployee: { ...POP_UP_EMPLOYEE.EDIT },
     };
   },
   created() {
@@ -340,7 +344,7 @@ export default {
       // validate
       for (var name in this.$refs) {
         var formItem = this.$refs[name];
-        if (formItem instanceof Vue && !formItem.validateInput()) {
+        if (formItem instanceof Vue && formItem.validateInput && !formItem.validateInput()) {
           formItem.focusInput();
           return;
         }

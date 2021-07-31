@@ -67,14 +67,6 @@ export default {
       var yyyymmdd = CommonFunction.formatDateYYYYMMDD(date);
       return yyyymmdd;
     },
-    /**
-     * Validate 
-     * @returns {Boolean} date dạng yyyy-mm-dd
-     * @author pthieu (22-07-2021)
-     */
-    validateInput() {
-      return true;
-    }
   },
 };
 </script>
