@@ -9,6 +9,7 @@
       :value="value"
       :placeholder="placeholder"
       :maxlength="maxlength"
+      spellcheck="false"
       :class="{
         'border-red': isError && !isComboboxInput,
         'm-combobox__input': isComboboxInput,
@@ -17,7 +18,7 @@
       @focus="onFocusCbxInput"
       @keydown="pressKeyInInput($event)"
       @input="changeInputValue($event.target.value)"
-      @blur="validateInput"
+      @blur="onBlurInput"
     />
     <!-- input type number -->
     <input
@@ -49,8 +50,8 @@
     />
 
     <!-- btn clear text -->
-    <div class="btn-clear-text" @click="clearText" v-show="isShowBtnClearText">
-      <img src="@/assets/icon/x.svg" />
+    <div class="btn-clear-text" @click="clearText" v-show="isShowBtnClearText" tabindex="-1">
+      <!-- <img src="@/assets/icon/x.svg" /> -->
     </div>
 
     <!-- notice báo lỗi validate -->
@@ -117,6 +118,7 @@ export default {
       }
       return true;
     },
+
   },
   watch: {
     value: function () {
@@ -124,6 +126,19 @@ export default {
     },
   },
   methods: {
+    /**
+     * Xử lý sự kiện blur input
+     * @param {event} $event sự kiện
+     * @author pthieu (28-07-2021)
+     */
+  onBlurInput: function($event) {
+    // console.log(this.$el);
+    // console.log($event.relatedTarget);
+    
+    if(!this.$el.contains($event.relatedTarget)) {
+      this.validateInput();
+    }
+  },
     /**
    * Loại bỏ dấu phân tách trong giá trị tiền
    * @param {*} value giá trị tiền có dấu phân tách
@@ -215,6 +230,8 @@ export default {
      * @author pthieu (22-07-2021)
      */
     validateComboboxInput: function () {
+      // console.log(this.value)
+      // console.log(this.comboboxInputItems)
       if (
         !this.isComboboxInput ||
         this.value == "" ||
