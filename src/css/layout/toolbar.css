@@ -1,29 +1,52 @@
 .toolbar {
+  max-width: 100%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 40px;
   margin-top: 16px;
-  /* test */
-  /* overflow: hidden; */
 }
 
-.toolbar-left, .toolbar-right {
+.toolbar .toolbar-left, .toolbar .toolbar-right {
+  max-width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* .toolbar-right button#btn-delete {
-  border-color: #F65454;
-  color: #F65454;
-  transition: 0.2s ease-out;
+/* ô search */
+.toolbar .input-search {
+  width: 300px;
+  padding-left: 40px;
 }
 
-.toolbar-right button#btn-delete:hover {
-  background-color: #F65454;
-  color: #ffffff;
-} */
+@media (max-width: 1200px) {
+  .toolbar .input-search {
+    width: 200px;
+  }
 
+  .toolbar .m-combobox__input {
+    width: 150px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .toolbar .input-search {
+    width: 150px;
+  }
+
+  .toolbar .m-combobox__input {
+    width: 100px;
+  }
+}
+
+.toolbar input.input-search+i {
+  position: absolute;
+  color: black;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  font-size: 16px;
+}

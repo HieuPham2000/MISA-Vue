@@ -22,9 +22,11 @@ function showToast(type, message, duration = 2500) {
       }
   })
 
+  // lấy ra #toast-msg-container
   const toastContainer = document.querySelector("#toast-msg-container");
+  // append toast message mới tạo vào
   toastContainer.appendChild(toastDom.$el);
-
+  // set thời gian remove toast message mới
   setTimeout(() => {toastContainer.removeChild(toastDom.$el)}, duration)
 }
 

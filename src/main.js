@@ -5,6 +5,7 @@ import registryToast from './script/base/toast'
 
 Vue.config.productionTip = false
 
+// sử dụng hàm tạo toast message (this.$toast)
 Vue.use(registryToast);
 
 new Vue({

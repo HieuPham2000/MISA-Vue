@@ -1,9 +1,11 @@
 <template>
   <div class="header">
+    <!-- phần bên trái: logo, btn toggle menu -->
     <div class="header-left">
       <div class="sidebar" @click="toggleMenu"></div>
       <div class="logo"></div>
     </div>
+    <!-- phần bên phải: selectbox, thông tin tài khoản -->
     <div class="header-right">
       <div class="restaurant-info">
         <!-- select box restaurant -->
@@ -29,12 +31,14 @@
 
 <script>
 import BaseSelectBox from '../base/BaseSelectBox.vue';
-import {RESTAURANT_SELECT_ITEMS} from '../../constant';
+import {RESTAURANT_SELECT_ITEMS} from '../../script/common/constant';
 export default {
   components: { BaseSelectBox },
   data() {
     return {
-      restaurantSelectItems: RESTAURANT_SELECT_ITEMS, // mảng các nhà hàng
+      // mảng các nhà hàng
+      restaurantSelectItems: RESTAURANT_SELECT_ITEMS, 
+      // giá trị v-model với selectbox
       restaurantId: 1
     }
   },

@@ -19,14 +19,15 @@
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  z-index: 1;
 }
 .loader {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+  /* transform: translate(-50%, -50%); */
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-top: 4px solid #ffffff;
   border-radius: 50%;

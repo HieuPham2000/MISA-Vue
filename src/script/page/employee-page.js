@@ -1,8 +1,9 @@
 export default {
   data() {
     return {
-      tableDataApi: "http://cukcuk.manhnv.net/v1/Employees",
-      deleteApi: "http://cukcuk.manhnv.net/v1/Employees",
+      // chứa dữ liệu về các cột trong grid table 
+      // (tiêu đề cột, độ rộng, style khác)
+      // dùng trong component EmployeePage
       tableColumns: [
         {
           header: "",
@@ -25,7 +26,7 @@ export default {
         {
           header: "Giới tính",
           fieldName: "GenderName",
-          style: "width: 150px",
+          style: "width: 60px",
         },
         {
           header: "Ngày sinh",
@@ -36,7 +37,7 @@ export default {
         {
           header: "Địa chỉ",
           fieldName: "Address",
-          style: "width: 200px",
+          style: "width: 250px",
         },
         {
           header: "Điện thoại",
@@ -46,12 +47,7 @@ export default {
         {
           header: "Email",
           fieldName: "Email",
-          style: "width: 200px",
-        },
-        {
-          header: "Chức vụ",
-          fieldName: "PositionName",
-          style: "width: 150px",
+          style: "width: 250px",
         },
         {
           header: "Phòng ban",
@@ -59,10 +55,15 @@ export default {
           style: "width: 150px",
         },
         {
+          header: "Chức vụ",
+          fieldName: "PositionName",
+          style: "width: 150px",
+        },
+        {
           header: "Mức lương cơ bản",
           fieldName: "Salary",
           filter: "money",
-          style: "width: 150px; text-align: right; padding-right: 10px;",
+          style: "width: 150px; text-align: right; padding-right: 20px;",
         },
         {
           header: "Tình trạng công việc",
@@ -74,6 +75,3 @@ export default {
     }
   }
 }
-
-export const ADD = "ADD";
-export const EDIT = "EDIT";
