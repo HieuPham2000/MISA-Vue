@@ -4,20 +4,23 @@
     type="date"
     :value-type="valueType"
     :format="displayFormat"
-    :disabled-date="isFutureDate"
     :placeholder="displayFormat"
-    :monthBeforeYear="true"
     :title-format="displayFormat"
+    :disabled-date="isFutureDate"
     :lang="lang"
   >
+    <!-- Thêm nút "Hôm nay" trong datepicker -->
     <template v-slot:header="{ emit }">
       <button class="mx-btn mx-btn-text" @click="emit(new Date())">
         Hôm nay
       </button>
     </template>
+
+    <!-- Custom button clear text -->
     <template v-slot:icon-clear>
       <div class="btn-clear-text"></div>
     </template>
+
   </DatePicker>
 </template>
 
@@ -25,50 +28,68 @@
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import "vue2-datepicker/locale/vi";
-import { CommonFunction } from "../../script/common/common";
+
 export default {
   components: {
     DatePicker,
   },
+  props: {
+    value: String, // giá trị value v-model
+    displayFormat: { // định dạng hiển thị
+      type: String,
+      default: "DD-MM-YYYY",
+    },
+    valueType: { // định dạng giá trị thực sự (input - output)
+      type: String,
+      default: "YYYY-MM-DD",
+    },
+  },
   data() {
     return {
-      dateValue: this.value,
+      // lưu giá trị của datepicker (nội bộ trong component này)
+      // map với prop value
+      dateValue: this.value, 
       lang: {
-        monthBeforeYear: true,
+        // thiết lập hiển thị tháng trước năm trong datepicker
+        monthBeforeYear: true, 
       },
     };
   },
+
   created() {
     this.dateValue = this.value;
   },
+
   watch: {
+    /**
+     * không cần theo dõi value để gán lại cho dateValue
+     * vì trừ khi created
+     * còn lại, dateValue luôn thay đổi trước, sau đó mới emit để thay đổi value
+     */
     // value: function(newValue) {
     //   this.dateValue = newValue;
     // },
+
+    /**
+     * Theo dõi dateValue
+     * Khi thay đổi, emit để thay đổi giá trị của prop value
+     */
     dateValue: function (newDateValue) {
       this.$emit("input", newDateValue);
     },
   },
   methods: {
-    // Định dạng yyyy-mm-dd
-    formatDateYYYYMMDD: function (value) {
-      return CommonFunction.formatDateYYYYMMDD(value);
-    },
+    
     // Kiểm tra xem có phải ngày lớn hơn hiện tại không
+    /**
+     * Phương thức kiểm tra giá trị có lớn hơn ngày hiện tại không
+     * @param {Date} date giá trị ngày cần kiểm tra
+     * @returns {Boolean} true - lớn hơn ngày hiện tại, false - nhỏ hơn
+     * @author pthieu (30-07-2021)
+     */
     isFutureDate(date) {
       const currentDate = new Date();
       return date > currentDate;
-    },
-  },
-  props: {
-    value: String,
-    displayFormat: {
-      type: String,
-      default: "DD-MM-YYYY",
-    },
-    valueType: {
-      type: String,
-      default: "YYYY-MM-DD",
     },
   },
 };

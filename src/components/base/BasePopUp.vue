@@ -36,13 +36,14 @@
           {{ btnCancel }}
         </button>
 
-         <!-- Nút thực hiện action (important action - dùng với popup danger) -->
+         <!-- Nút thực hiện action (dùng với popup danger) -->
         <button
           v-if="btnDanger"
           type="button"
           tabindex="0"
           class="m-btn-default m-btn-danger"
           @click="doAction"
+          :ref="btnCancel ? 'btnDanger' : 'btnFocus'"
         >
           {{ btnDanger }}
         </button>
@@ -54,6 +55,7 @@
           tabindex="0"
           class="m-btn-default m-btn-do"
           @click="doAction"
+          :ref="btnCancel ? 'btnDo' : 'btnFocus'"
         >
           {{ btnDo }}
         </button>
@@ -75,8 +77,8 @@
 </style>
 
 <script>
-import eventBus from "../../event-bus";
-import { POPUP_TYPE } from "../../type";
+import eventBus from "../../script/common/event-bus";
+import { POPUP_TYPE } from "../../script/common/type";
 import {CommonFunction} from '../../script/common/common'
 export default {
   created() {
@@ -89,15 +91,17 @@ export default {
   },
   data() {
     return {
-      isShow: false, // cờ trạng thái hiển thị của pop up
+      isShow: false, // cờ trạng thái ẩn/hiện pop up
       POPUP_TYPE: POPUP_TYPE, // constant tất cả các kiểu pop up
       type: null, // Kiểu pop up
       title: "", 
       content: "",
       btnCancel: null, // tên btn cancel
-      btnDo: null,
-      btnDanger: null,
-      actionDo: null // tên sự kiện kích hoạt action
+      btnDo: null, // tên btn do
+      btnDanger: null, // tên btn danger
+      actionDo: null, // tên sự kiện kích hoạt action
+
+      param: null,
     };
   },
   filters: {
@@ -108,25 +112,32 @@ export default {
   },
   methods: {
     /**
-     * Thiết lập dữ liệu và mở(hiển thị) pop up
-     * @param {Object} propsData object dữ liệu pop up
+     * Phương thức khởi tạo dữ liệu và hiển thị pop up
+     * @param {Object} popupInfo dữ liệu pop up
      * @author pthieu (21-07-2021)
      */
-    openPopUp: function (propsData) {
-      this.type = propsData.type;
-      this.title = propsData.title;
-      this.content = propsData.content;
-      this.btnCancel = propsData.btnCancel;
-      this.btnDo = propsData.btnDo;
-      this.btnDanger = propsData.btnDanger;
-      this.actionDo = propsData.actionDo;
+    openPopUp: function (popupInfo, param) {
 
+      // gán giá trị từ tham số đầu vào cho data của pop-up
+      this.type = popupInfo.type;
+      this.title = popupInfo.title;
+      this.content = popupInfo.content;
+      this.btnCancel = popupInfo.btnCancel;
+      this.btnDo = popupInfo.btnDo;
+      this.btnDanger = popupInfo.btnDanger;
+      this.actionDo = popupInfo.actionDo;
+
+      this.param = param;
+
+      // hiển thị pop-up
       this.isShow = true;
+
+      // focus vào button có ref là btnFocus
       this.$nextTick(() => this.$refs.btnFocus.focus());
     },
 
     /**
-     * Đóng(Ẩn) pop up
+     * Phương thức đóng pop up
      * @author pthieu (21-07-2021)
      */
     closePopUp: function () {
@@ -134,11 +145,15 @@ export default {
     },
 
     /**
-     * Kích hoạt sự kiện thực hiện action
+     * Phương thức kích hoạt sự kiện thực hiện action
      * @author pthieu (21-07-2021)
      */
     doAction: function () {
-      eventBus.$emit(this.actionDo);
+      // nếu có actionDo thì sẽ emit để thực hiện
+      if(this.actionDo) {
+        eventBus.$emit(this.actionDo, this.param);
+      }
+      // đóng pop-up
       this.closePopUp();
     },
   },

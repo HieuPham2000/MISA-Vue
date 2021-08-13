@@ -12,6 +12,8 @@ body {
   font-size: 13px;
   color: #454545;
   margin: 0 auto;
+  /* test */
+  overflow: hidden;
 }
 
 @font-face {

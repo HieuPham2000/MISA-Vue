@@ -1,6 +1,8 @@
 export default {
   data() {
     return {
+      // chứa tất cả các trường thông tin về nhân viên
+      // dùng trong component EmployeeDetail
       employee: {
         CreatedDate: null, // string (date -> json)
         CreatedBy: null, // string
@@ -20,7 +22,7 @@ export default {
         IdentityDate: null, // string (date -> json)
         IdentityPlace: null,
         JoinDate: null, // string (date -> json)
-        MartialStatus: null, // number
+        MaritalStatus: null, // number
         EducationalBackground: null, // number
         QualificationId: null, // string
         DepartmentId: null, // string

@@ -1,9 +1,18 @@
 <template>
   <div id="app">
+    <!-- vùng chứa toast message -->
     <div id="toast-msg-container" ref="toast-msg-container"></div>
+
+    <!-- pop-up -->
     <BasePopUp />
+
+    <!-- header -->
     <TheHeader @toggleMenu="toggleMenu" />
+
+    <!-- menu -->
     <TheMenu :class="{collapse: collapseMenu}" />
+
+    <!-- page -->
     <router-view :expand="collapseMenu"/>
   </div>
 </template>
@@ -21,10 +30,16 @@ export default {
   },
   data() {
     return {
+      // cờ xác định trạng thái thu hẹp/mở rộng của menu
+      // true - menu thu hẹp, false - menu mở rộng
       collapseMenu: false,
     }
   },
   methods: {
+    /**
+     * Phương thức thay đổi trạng thái thu hẹp/mở rộng menu
+     * @author pthieu (17-07-2021)
+     */
     toggleMenu: function() {
       this.collapseMenu = !this.collapseMenu;
     },
@@ -35,5 +50,4 @@ export default {
 <style>
   @import './assets/font/fontawesome-5.15.1/css/all.min.css';
   @import './css/common/main.css';
-  @import './css/page/employee.css';
 </style>

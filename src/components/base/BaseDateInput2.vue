@@ -28,21 +28,20 @@ export default {
   },
   data() {
     return {
-        //   date: "2021-07-27",
         date: "",
         inputAttributes: {
-            placeholder: this.displayFormat,
-            title: `Nhập giá trị theo định dạng ${this.displayFormat}`,
-            tabindex: "0" 
+          placeholder: this.displayFormat,
+          title: `Nhập giá trị theo định dạng ${this.displayFormat}`,
+          tabindex: "0" 
         }
     };
   },
   methods: {
-        isFutureDate(date) {
-            const currentDate = new Date();
-            return date > currentDate;
-        }
-    },
+    isFutureDate(date) {
+        const currentDate = new Date();
+        return date > currentDate;
+    }
+  },
   props: {
     value: {
         type: String

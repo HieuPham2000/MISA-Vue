@@ -1,4 +1,8 @@
 import {POPUP_TYPE, EMPLOYEE_ACTION} from './type'
+
+/**
+ * fix dữ liệu cho selectbox nhà hàng
+ */
 export const RESTAURANT_SELECT_ITEMS = [
   {id: 1, text: "Nhà hàng Biển Đông"},
   {id: 2, text: "Nhà hàng Biển Tây"},
@@ -6,25 +10,45 @@ export const RESTAURANT_SELECT_ITEMS = [
   {id: 4, text: "Nhà hàng Biển Bắc"}
 ];
 
+/**
+ * fix dữ liệu cho selectbox số bản ghi/trang
+ */
 export const PAGE_SIZE_SELECT_ITEMS = [
-  {id: 10, text: "10 nhân viên/trang"},
   {id: 20, text: "20 nhân viên/trang"},
   {id: 30, text: "30 nhân viên/trang"},
+  {id: 40, text: "40 nhân viên/trang"},
 ];
 
+/**
+ * fix dữ liệu Giới tính
+ */
 export const FIXED_DATA_GENDER = [
   {id: 0, text: "Nữ"},
   {id: 1, text: "Nam"},
-  {id: 2, text: "Không xác định"}
+  {id: 2, text: "Khác"}
 ];
 
+/**
+ * fix dữ liệu trạng thái công việc
+ */
 export const FIXED_DATA_WORK_STATUS = [
-  {id: 1, text: "Đã nghỉ việc"},
-  {id: 2, text: "Đang thử việc"},
-  {id: 3, text: "Đang làm việc"}
+  {id: 0, text: "Đang làm việc"},
+  {id: 1, text: "Đang thực tập"},
+  {id: 2, text: "Đã nghỉ việc"},
+  {id: 3, text: "Đã nghỉ hưu"}
 ];
 
+/**
+ * Dữ liệu pop-up liên quan đến employee
+ */
 export const POP_UP_EMPLOYEE = {
+  INFO: {
+    type: POPUP_TYPE.INFO,
+    title: "Thông báo",
+    content: '',
+    btnDo: "Đóng",
+    actionDo: EMPLOYEE_ACTION.FOCUS_ITEM,
+  },
   CLOSE_FORM: {
     type: POPUP_TYPE.WARNING,
     title: "Đóng biểu mẫu",

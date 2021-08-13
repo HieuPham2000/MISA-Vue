@@ -21,7 +21,7 @@ button {
     background-color: #2FBE8E;
   }
 
-  .m-btn-icon {
+  .m-btn .m-btn-icon {
     width: 16px;
     height: 16px;
     background-position: center;
@@ -38,7 +38,7 @@ button {
   background-color: #ffffff;
   text-align: center;
 }
-  .m-second-button:hover {
+  .m-second-button:hover, .m-second-button:focus {
     background-color: #e9ebee;
   }
 
@@ -59,7 +59,7 @@ button {
   cursor: pointer;
 }
 
-  .m-btn-ctrl-page:hover {
+  .m-btn-ctrl-page:hover, .m-btn-ctrl-page:focus {
     background-color: #ffffff;
   }
   .m-btn-first-page {
@@ -91,7 +91,7 @@ button {
   user-select: none;
 }
 
-  .m-btn-num-page:hover {
+  .m-btn-num-page:hover, .m-btn-num-page:focus {
     border-color: #ffffff;
     background-color: #ffffff;
   }

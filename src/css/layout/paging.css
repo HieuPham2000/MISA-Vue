@@ -8,26 +8,26 @@
   align-items: center;
   width: 100%;
   height: 56px;
-  /* test */
-  /* overflow: hidden; */
-  /* overflow-x: hidden; */
 }
 
-.paging-button {
+/* các nút chuyển trang */
+.paging-bar .paging-button {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.paging-limit.m-selectbox{
+/* selectbox chọn số bản ghi/trang */
+.paging-bar .paging-limit.m-selectbox {
   background-color: #ffffff;
   border-radius: 4px;
 }
-.paging-limit.m-selectbox .m-selectbox__main {
+
+.paging-bar .paging-limit.m-selectbox .m-selectbox__main {
   padding: 6px 10px;
 }
 
-.paging-limit.m-selectbox .m-selectbox__dropdown {
+.paging-bar .paging-limit.m-selectbox .m-selectbox__dropdown {
   top: unset;
   bottom: calc(100% + 5px);
   right: 0;

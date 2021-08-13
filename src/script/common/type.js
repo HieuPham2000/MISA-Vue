@@ -1,22 +1,36 @@
+/**
+ * Các kiểu toast message
+ */
 export const TOAST_TYPE = {
   DANGER: "danger",
   WARNING: "warning",
   SUCCESS: "success",
   INFO: "info"
 }
+
+/**
+ * Các kiểu pop-up
+ */
 export const POPUP_TYPE = {
   DANGER: "danger",
   WARNING: "warning",
   INFO: "info"
 }
 
+/**
+ * các kiểu hành động với dữ liệu employee
+ */
 export const EMPLOYEE_ACTION = {
   ADD: "ADD_EMPLOYEE",
   EDIT: "EDIT_EMPLOYEE",
   DELETE: "DELETE_EMPLOYEE",
   CLOSE_FORM: "CLOSE_FORM",
+  FOCUS_ITEM: "FOCUS_ITEM",
 }
 
+/**
+ * Các dạng validate
+ */
 export const VALIDATE = {
   REQUIRED: {
     TYPE: "REQUIRED",

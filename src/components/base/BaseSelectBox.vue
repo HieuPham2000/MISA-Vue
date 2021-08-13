@@ -12,7 +12,10 @@
     >
       <!-- selectbox content -->
       <div class="m-selectbox__content" tabindex="-1">
-        {{ text }}
+        <!-- {{ text }} -->
+        <slot name="m-selectbox-text">
+          {{ text }}
+        </slot>
       </div>
 
       <!-- selectbox button -->
