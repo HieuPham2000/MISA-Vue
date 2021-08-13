@@ -1,53 +1,70 @@
-.grid {
+.grid-container {
+  position: relative;
+  box-sizing: border-box;
+  margin-top: 16px;
+  width: 100%;
+  height: calc(100% - 152px) !important; 
+}
+
+/* style cho grid table */
+.grid-container .grid {
   position: relative;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
   overflow: auto;
-  margin-top: 16px;
   background-color: #ffffff;
   user-select: none;
 }
 
 .grid table {
+  position: relative;
   width: 100%;
   table-layout: fixed;  
   cursor: context-menu;
 }
 
 .grid th, .grid td {
-    box-sizing: border-box;
-    text-align: left;
-    height: 48px;
-    line-height: 48px;
-    padding: 0 0 0 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-bottom: 1px solid #bbbbbb;
-  }
-
-  /* tbody tr:nth-child(odd) {
-    background-color: #f4f4f4;
-  } */
-
+  box-sizing: border-box;
+  text-align: left;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 0 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px solid #bbbbbb;
+}
   .grid tbody tr:hover {
-    /* background-color: #e9ebee; */
     background-color: #e5e5e5;
   }
-
   .grid tbody tr.selected {
     background-color: #EBF9F4;
   }
-
   .grid thead th {
   position: sticky;
   top: 0;
   background-color: #ffffff;
-  /* test overlap loader */
   z-index: 2;
 }
 
+/* thiết lập cho loading, để không đè lên scrollbar */
+.grid-container .loader-container {
+  width: unset;
+  left: 0;
+  right: 5px; /* phụ thuộc scrollbar width */
+  bottom: 5px; /* phụ thuộc scrollbar height */
+}
+
+/* style cho câu thông báo khi không có dữ liệu */
+.grid-container .notice-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* style cho scrollbar */
 .grid::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -66,19 +83,17 @@
   background: #555; 
 } */
 
-
-/* tr td:nth-child(1), tr th:nth-child(1) {
-  width: 150px;
-}*/
+/* style cho cột đầu tiên trong bảng (cột chứa checkbox)*/
 .grid tr td:nth-child(1), .grid tr th:nth-child(1) {
   padding-left: 16px;
   text-align: right;
 }
+  .grid tr td:nth-child(1) > i {
+    line-height: 52px;
+    font-size: 24px;
+  }
 
-.grid tr td:nth-child(1) > i {
-  line-height: 52px;
-  font-size: 24px;
-}
+/* ô checkbox (custom) */
 .grid td i.fa-square {
   color: #bbbbbb;
 }
