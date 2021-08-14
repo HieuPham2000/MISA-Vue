@@ -2,9 +2,15 @@
   <div class="modal-container">
     <!-- form thông tin chi tiết-->
     <div class="form-modal">
-      <form id="form-employee" method="POST" action="#" autocomplete="off">
+      <form id="form-employee" autocomplete="off" @submit.prevent>
         <!-- button x -->
-        <div class="form-icon-close" @click="clickBtnClose" tabindex="0"></div>
+        <button 
+          type="button" 
+          class="form-icon-close" 
+          @click="clickBtnClose" 
+          tabindex="0"
+          :disabled="isProcessing"
+        ></button>
 
         <!-- tiêu đề form -->
         <div class="form-title">Thông tin nhân viên</div>
@@ -36,6 +42,7 @@
                     maxlength="20"
                     :isRequired="true"
                     :autofocus="true"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -46,6 +53,7 @@
                     placeholder="Nhập họ và tên"
                     maxlength="100"
                     :isRequired="true"
+                    :isDisabled="isProcessing"
                   />
                 </div>
               </div>
@@ -58,6 +66,7 @@
                   <BaseDatePickerInput
                     ref="DateOfBirth"
                     v-model="employee.DateOfBirth"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -71,6 +80,7 @@
                     dataId="id"
                     dataName="text"
                     :comboboxData="fixedDataGender"
+                    :isDisabled="isProcessing"
                   />
                 </div>
               </div>
@@ -89,6 +99,7 @@
                     placeholder="Nhập số CMTND/ Căn cước"
                     maxlength="25"
                     :isRequired="true"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -96,6 +107,7 @@
                   <BaseDatePickerInput
                     ref="IdentityDate"
                     v-model="employee.IdentityDate"
+                    :isDisabled="isProcessing"
                   />
                 </div>
               </div>
@@ -110,6 +122,7 @@
                     v-model="employee.IdentityPlace"
                     placeholder="Nhập nơi cấp"
                     maxlength="255"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -135,6 +148,7 @@
                     maxlength="100"
                     :isRequired="true"
                     :format="validate.EMAIL.TYPE"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -146,6 +160,7 @@
                     maxlength="50"
                     :isRequired="true"
                     :format="validate.PHONE_NUMBER.TYPE"
+                    :isDisabled="isProcessing"
                   />
                 </div>
               </div>
@@ -169,6 +184,7 @@
                     dataId="PositionId"
                     dataName="PositionName"
                     :comboboxData="positions"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -182,6 +198,7 @@
                     dataId="DepartmentId"
                     dataName="DepartmentName"
                     :comboboxData="departments"
+                    :isDisabled="isProcessing"
                   />
                 </div>
               </div>
@@ -196,6 +213,7 @@
                     v-model="employee.PersonalTaxCode"
                     placeholder="Nhập mã số thuế"
                     maxlength="25"
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -207,6 +225,7 @@
                       v-model="employee.Salary"
                       placeholder="Nhập mức lương cơ bản"
                       maxlength="14"
+                      :isDisabled="isProcessing"
                     />
                   </div>
                 </div>
@@ -219,6 +238,7 @@
                   <BaseDatePickerInput 
                     ref="JoinDate" 
                     v-model="employee.JoinDate" 
+                    :isDisabled="isProcessing"
                   />
                 </div>
                 <div class="form-item">
@@ -233,6 +253,7 @@
                     dataName="text"
                     :comboboxData="fixedDataWorkStatus"
                     :showAbove="true"
+                    :isDisabled="isProcessing"
                   />
                 </div>
               </div>
@@ -248,6 +269,7 @@
           <!-- nút hủy -->
           <BaseButton
             classes="m-btn-default m-btn-cancel"
+            :isDisabled="isProcessing"
             @clickBtn="clickBtnClose"
           >
             <template v-slot:btn-text>
@@ -257,6 +279,7 @@
           <!-- nút lưu -->
            <BaseButton
             classes="m-btn m-btn-default"
+            :isDisabled="isProcessing"
             @clickBtn="clickBtnSubmit"
           >
             <template v-slot:btn-icon>
@@ -269,6 +292,7 @@
         </div>
         <!-- end form footer -->
       </form>
+      <TheLoader :text="loadingText" v-show="isProcessing"/>
     </div>
     <!-- end form modal -->
   </div>
@@ -287,9 +311,10 @@ import BaseCombobox from "@/components/base/BaseCombobox.vue";
 import BaseTextInput from "@/components/base/BaseTextInput.vue";
 import BaseDatePickerInput from "@/components/base/BaseDatePickerInput.vue";
 import BaseButton from '../../components/base/BaseButton.vue';
+import TheLoader from '../../components/layout/TheLoader.vue';
 
 export default {
-  components: { BaseCombobox, BaseTextInput, BaseDatePickerInput, BaseButton },
+  components: { BaseCombobox, BaseTextInput, BaseDatePickerInput, BaseButton, TheLoader },
   props: {
     // dữ liệu nhân viên 
     dataEmployee: Object,
@@ -318,7 +343,11 @@ export default {
 
       // biến lưu lại dữ liệu employee
       // dùng để kiểm tra người dùng có thay đổi bất kỳ trường dữ liệu nào không
-      oldEmployeeData: null
+      oldEmployeeData: null,
+
+      // set trạng thái processing
+      isProcessing: false,
+      loadingText: "Đang xử lý",
     };
   },
   created() {
@@ -451,10 +480,9 @@ export default {
      * @author pthieu (09-08-2021)
      */
     showServerResponseError(error) {
-      var response = null;
-      if(error) {
-        response = error.response;
-      }
+      console.log(error.response)
+      var response = error.response;
+
       // dựa vào thông tin lỗi trả về để hiện thông báo cho người dùng
       if (response && response.status == 400 && response.data.UserMsg) {
         eventBus.$emit("openPopUp", {...POP_UP_EMPLOYEE.INFO, content: response.data.UserMsg}, response.data.Data);
@@ -469,6 +497,9 @@ export default {
      * @author pthieu (21-07-2021)
      */
     addEmployee: function () {
+      // thiết lập trạng thái đang xử lý
+      this.isProcessing = true;
+
       // gọi api thêm nhân viên mới
       employeeApi.postEntity(this.employee)
         .then(() => {
@@ -482,6 +513,9 @@ export default {
           // dựa vào thông tin lỗi trả về để hiện thông báo cho người dùng
           this.showServerResponseError(error);
         })
+        .finally(() => {
+          this.isProcessing = false;
+        })
     },
 
     /**
@@ -490,11 +524,14 @@ export default {
      */
     editEmployee: function () {
       // gán khóa chính
-      this.employee.EmployeeId = this.dataEmployee.EmployeeId;
+      // this.employee.EmployeeId = this.dataEmployee.EmployeeId;
 
-      console.log(this.employee);
+      // thiết lập trạng thái đang xử lý
+      this.isProcessing = true;
+
       // gọi api cập nhật dữ liệu nhân viên
-      employeeApi.putEntity(this.employee.EmployeeId, this.employee)
+      // employeeApi.putEntity(this.employee.EmployeeId, this.employee)
+      employeeApi.putEntity(this.dataEmployee.EmployeeId, this.employee)
         .then(() => {
           // toast mssg thông báo cập nhật thành công
           this.$toast(TOAST_TYPE.SUCCESS, RESOURCES.UPDATE_EMPLOYEE.SUCCESS);
@@ -505,6 +542,9 @@ export default {
         .catch((error) => {
           // dựa vào thông tin lỗi trả về để hiện thông báo cho người dùng
           this.showServerResponseError(error);
+        })
+        .finally(() => {
+          this.isProcessing = false;
         })
     },
   },
