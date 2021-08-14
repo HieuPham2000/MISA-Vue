@@ -45,6 +45,10 @@
   .m-combobox .m-combobox__btn:focus {
     outline: none;
   }
+  .m-combobox .m-combobox__btn:disabled {
+    background-color: #ffffff;
+    color: #000000;
+  }
   .m-combobox .m-combobox__btn > i {
     font-size: 16px;
   }

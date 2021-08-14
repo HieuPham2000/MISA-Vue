@@ -51,16 +51,18 @@
   top: 0;
   right: 0;
   /* box-sizing: border-box; */
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   padding: 6px;
   border-top-right-radius: 4px;
   border-bottom-left-radius: 4px;
   user-select: none;
+  background-color: #ffffff;
   background-image: url(../../assets/icon/x.svg);
   /* background-size: contain; */
   background-repeat: no-repeat;
   background-position: center;
+  opacity: 0.6;
 }
 
 .form-modal .form-icon-close:focus {

@@ -38,7 +38,7 @@ button {
   background-color: #ffffff;
   text-align: center;
 }
-  .m-second-button:hover, .m-second-button:focus {
+  .m-second-button:hover, .m-second-button:active {
     background-color: #e9ebee;
   }
 
@@ -59,7 +59,7 @@ button {
   cursor: pointer;
 }
 
-  .m-btn-ctrl-page:hover, .m-btn-ctrl-page:focus {
+  .m-btn-ctrl-page:hover, .m-btn-ctrl-page:active {
     background-color: #ffffff;
   }
   .m-btn-first-page {
@@ -91,7 +91,7 @@ button {
   user-select: none;
 }
 
-  .m-btn-num-page:hover, .m-btn-num-page:focus {
+  .m-btn-num-page:hover, .m-btn-num-page:active {
     border-color: #ffffff;
     background-color: #ffffff;
   }

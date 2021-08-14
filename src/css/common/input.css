@@ -30,6 +30,7 @@ input {
 
   input:disabled {
     background-color: #ffffff;
+    color: #000000;
   }
 
 select {
@@ -91,7 +92,7 @@ input.border-red {
   display: inline-block;
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 5px);
+  bottom: calc(100% + 2px);
   transform: translateX(-50%);
   width: 150px;
   /* height: 50px; */
