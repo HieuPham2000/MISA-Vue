@@ -55,11 +55,14 @@
     />
 
     <!-- btn clear text -->
-    <div class="btn-clear-text" @click="clearText" v-show="isShowBtnClearText" tabindex="-1">
-    </div>
+    <button 
+    type="button" class="btn-clear-text" @click="clearText" 
+    v-show="isShowBtnClearText" tabindex="-1"
+    :disabled="isDisabled">
+    </button>
 
     <!-- notice báo lỗi validate -->
-    <transition name="fade">
+    <transition name="fade" :css="animated">
       <div
         class="notice"
         v-if="isRequired || format || isComboboxInput"
@@ -132,6 +135,11 @@ export default {
        * true - có lỗi, false - không có lỗi
        */
       isError: false,
+
+      /**
+       * cờ xác định có sử dụng animate transition không
+       */
+      animated: true
     };
   },
   mounted() {
@@ -240,9 +248,9 @@ export default {
       
       // kiểm tra giá trị
       if (
-        this.value === "" ||
         this.value === undefined ||
-        this.value === null
+        this.value === null ||
+        this.value.toString().trim() === ""
       ) {
         this.errorMsg = VALIDATE.REQUIRED.NOTICE;
         return false;
@@ -346,6 +354,9 @@ export default {
      * @author pthieu (22-07-2021)
      */
     addInputError: function (showNotice) {
+      // bật cờ sử dụng animate transition 
+      this.animated = true;
+      // bật cờ trạng thái Lỗi
       this.isError = true;
       if (showNotice) {
         this.addNoticeError();
@@ -356,6 +367,12 @@ export default {
      * @author pthieu (22-07-2021)
      */
     removeInputError: function () {
+      // tắt cờ animate transition
+      // để ẩn notice ngay lập tức
+      this.animated = false;
+      // ẩn notice
+      this.isShowNotice = false;
+      // tắt cờ trạng thái Lỗi
       this.isError = false;
       this.errorMsg = null;
     },
@@ -381,7 +398,16 @@ export default {
      */
     focusInput: function() {
       this.$refs.input.focus();
-      // this.$refs.input.select();
+    },
+
+    /**
+     * Phương thức thực hiện focus vào ô input 
+     * và select toàn bộ dữ liệu bên trong
+     * @author pthieu (23-07-2021)
+     */
+    focusAndSelectInput: function() {
+      this.$refs.input.focus();
+      this.$refs.input.select();
     }
   },
 };
