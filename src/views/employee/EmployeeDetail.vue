@@ -292,7 +292,7 @@
         </div>
         <!-- end form footer -->
       </form>
-      <TheLoader :text="loadingText" v-show="isProcessing"/>
+      <BaseLoading :text="loadingText" v-show="isProcessing"/>
     </div>
     <!-- end form modal -->
   </div>
@@ -311,10 +311,10 @@ import BaseCombobox from "@/components/base/BaseCombobox.vue";
 import BaseTextInput from "@/components/base/BaseTextInput.vue";
 import BaseDatePickerInput from "@/components/base/BaseDatePickerInput.vue";
 import BaseButton from '../../components/base/BaseButton.vue';
-import TheLoader from '../../components/layout/TheLoader.vue';
+import BaseLoading from '../../components/base/BaseLoading.vue';
 
 export default {
-  components: { BaseCombobox, BaseTextInput, BaseDatePickerInput, BaseButton, TheLoader },
+  components: { BaseCombobox, BaseTextInput, BaseDatePickerInput, BaseButton, BaseLoading },
   props: {
     // dữ liệu nhân viên 
     dataEmployee: Object,
