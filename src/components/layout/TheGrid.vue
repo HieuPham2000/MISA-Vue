@@ -26,11 +26,14 @@
         >
           <!-- ô 1: chứa checkbox -->
           <td :style="tableColumns[0].style">
-            <i
+            <!-- <i
               v-if="selectedRows.indexOf(row[entityId]) > -1"
               class="fas fa-check-square"
             ></i>
-            <i v-else class="far fa-square"></i>
+            <i v-else class="far fa-square"></i> -->
+            <div :class="['checkbox', {checked: isSelected(row[entityId])} ]">
+              <i class="fas fa-check"></i>
+            </div>
           </td>
           <!-- ô 2: chứa số thứ tự -->
           <td :style="tableColumns[1].style">
@@ -50,7 +53,7 @@
     
   </div>
   <!-- modal loading -->
-  <TheLoader v-show="isLoading" />
+  <BaseLoading v-show="isLoading" />
   <!-- thông báo hiển thị khi bảng không có dữ liệu -->
   <div class="notice-empty" v-show="isEmpty">Không có dữ liệu</div>
   </div>
@@ -63,9 +66,9 @@
 
 <script>
 import { CommonFunction } from "../../script/common/common";
-import TheLoader from "./TheLoader.vue";
+import BaseLoading from "../base/BaseLoading.vue";
 export default {
-  components: { TheLoader },
+  components: { BaseLoading },
   props: {
     /**
      * Tên trường id (khóa chính)
@@ -125,6 +128,15 @@ export default {
     openDetailForm: function (id) {
       // Truyền đi sự kiện (lên component cha) với tham số id
       this.$emit("openDetailForm", id);
+    },
+   /**
+     * Phương thức Kiểm tra 1 bản ghi có đang ở trạng thái selected không
+     * @param {String} id khóa chính
+     * @return {Boolean} true - đang được selected, false - không
+     * @author pthieu (16-07-2021)
+     */
+    isSelected: function (id) {
+      return (this.selectedRows.indexOf(id) > -1);
     },
   },
   filters: {

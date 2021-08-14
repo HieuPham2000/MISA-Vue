@@ -7,21 +7,21 @@ export default {
       tableColumns: [
         {
           header: "",
-          style: "width: 40px",
+          style: "width: 36px",
         },
         {
           header: "#",
-          style: "width: 50px",
+          style: "width: 40px",
         },
         {
           header: "Mã nhân viên",
           fieldName: "EmployeeCode",
-          style: "width: 150px",
+          style: "width: 120px",
         },
         {
           header: "Họ và tên",
           fieldName: "FullName",
-          style: "width: 200px",
+          style: "width: 180px",
         },
         {
           header: "Giới tính",
@@ -34,11 +34,11 @@ export default {
           filter: "dateDDMMYYYY",
           style: "width: 150px; text-align: center",
         },
-        {
-          header: "Địa chỉ",
-          fieldName: "Address",
-          style: "width: 250px",
-        },
+        // {
+        //   header: "Địa chỉ",
+        //   fieldName: "Address",
+        //   style: "width: 250px",
+        // },
         {
           header: "Điện thoại",
           fieldName: "PhoneNumber",
@@ -57,7 +57,7 @@ export default {
         {
           header: "Chức vụ",
           fieldName: "PositionName",
-          style: "width: 150px",
+          style: "width: 120px",
         },
         {
           header: "Mức lương cơ bản",
@@ -69,7 +69,7 @@ export default {
           header: "Tình trạng công việc",
           fieldName: "WorkStatus",
           filter: "work-status",
-          style: "width: 200px",
+          style: "width: 150px",
         },
       ],
     }
